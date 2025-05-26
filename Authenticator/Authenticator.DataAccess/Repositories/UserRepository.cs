@@ -29,14 +29,14 @@ public class UserRepository : IUserRepository
 		return await _context.SaveChangesAsync() > 0;
 	}
 
-	public async Task<User> GetUserAsync(long id)
+	public async Task<User?> GetUserAsync(long id)
 	{
-		return await _context.Users.FindAsync(id) ?? throw new ArgumentException("User not found");
+		return await _context.Users.FindAsync(id);
 	}
 
-	public async Task<User> GetUserAsync(string email)
+	public async Task<User?> GetUserAsync(string email)
 	{
-		return await _context.Users.FirstAsync(x => x.Email == email);
+		return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
 	}
 
 	public async Task<List<User>> GetUsersAsync(int skip, int take)
@@ -53,5 +53,10 @@ public class UserRepository : IUserRepository
 	public async Task<bool> AnyUserAsync(string email)
 	{
 		return await _context.Users.AnyAsync(x => x.Email == email);
+	}
+
+	public async Task<bool> AnyUserAsync(long id)
+	{
+		return await _context.Users.FindAsync(id) != null;
 	}
 }

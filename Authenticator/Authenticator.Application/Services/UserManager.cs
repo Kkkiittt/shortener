@@ -48,7 +48,7 @@ public class UserManager : IUserManager
 		{
 			throw new Exception("Access denied");
 		}
-		User user = await _repo.GetUserAsync(id);
+		User? user = await _repo.GetUserAsync(id);
 		if(user == null)
 			throw new Exception("User not found");
 		if(user.Role == Roles.Admin || user.Role == Roles.Owner)
@@ -62,7 +62,7 @@ public class UserManager : IUserManager
 		{
 			throw new Exception("Access denied");
 		}
-		User user = await _repo.GetUserAsync(id);
+		User? user = await _repo.GetUserAsync(id);
 		if(user == null)
 			throw new Exception("User not found");
 		return (UserGetDto)user;
@@ -79,7 +79,9 @@ public class UserManager : IUserManager
 
 	public async Task<string> LoginAsync(UserLoginDto userDto)
 	{
-		User user = await _repo.GetUserAsync(userDto.Email);
+		User? user = await _repo.GetUserAsync(userDto.Email);
+		if(user == null)
+			throw new Exception("Invalid credentials");
 		if(Hasher.Verify(userDto.Password, user.PasswordHash))
 		{
 			string token = _token.GenerateToken(user);
@@ -93,6 +95,8 @@ public class UserManager : IUserManager
 		if(_identity.Role != Roles.Owner)
 			throw new Exception("Access denied");
 		User user = await _repo.GetUserAsync(id);
+		if(user == null)
+			throw new Exception("User not found");
 		user.Role = Roles.Admin;
 		return await _repo.UpdateUserAsync(user);
 	}
@@ -101,14 +105,18 @@ public class UserManager : IUserManager
 	{
 		if(_identity.Role != Roles.Owner)
 			throw new Exception("Access denied");
-		User user = await _repo.GetUserAsync(id);
+		User? user = await _repo.GetUserAsync(id);
+		if(user == null)
+			throw new Exception("User not found");
 		user.Role = Roles.User;
 		return await _repo.UpdateUserAsync(user);
 	}
 
 	public async Task<bool> SubscribeAsync(long subscriptionId = 0)
 	{
-		User user = await _repo.GetUserAsync(_identity.Id);
+		User? user = await _repo.GetUserAsync(_identity.Id);
+		if(user == null)
+			throw new Exception("User not found");
 		user.SubscriptionId = subscriptionId;
 		return await _repo.UpdateUserAsync(user);
 	}
@@ -117,13 +125,14 @@ public class UserManager : IUserManager
 	{
 		if(await _repo.AnyUserAsync(userDto.Email))
 		{
-			throw new Exception("User already exists");
+			throw new Exception("Email already exists");
+		}
+		if(!await _repo.AnyUserAsync(userDto.Id))
+		{
+			throw new Exception("User not found");
 		}
 		User user = new(userDto.Email, Hasher.Hash(userDto.Password), userDto.Name)
 		{
-			Balance = 0,
-			Created = DateTime.Now,
-			Role = Roles.User,
 			Updated = DateTime.Now,
 			Id = _identity.Id
 		};

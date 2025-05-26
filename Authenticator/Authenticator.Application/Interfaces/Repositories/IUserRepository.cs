@@ -14,9 +14,9 @@ public interface IUserRepository
 
 	public Task<bool> UpdateUserAsync(User user);
 
-	public Task<User> GetUserAsync(long id);
+	public Task<User?> GetUserAsync(long id);
 
-	public Task<User> GetUserAsync(string email);
+	public Task<User?> GetUserAsync(string email);
 
 	public Task<bool> AnyUserAsync(string email);
 
