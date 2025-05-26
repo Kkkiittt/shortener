@@ -2,6 +2,7 @@
 
 using Authenticator.Application.Helpers;
 using Authenticator.Domain.Entities;
+using Authenticator.Domain.Enums;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,7 @@ public class UserDbContext : DbContext
 		User admin = new User(admConfig["Email"], Hasher.Hash(admConfig["Password"]), admConfig["Name"]);
 		admin.Created = DateTime.ParseExact(admConfig["Created"], "dd/mm/yyyy", CultureInfo.InvariantCulture);
 		admin.Balance = int.Parse(admConfig["Balance"]);
-		admin.Role = int.Parse(admConfig["Role"]);
+		admin.Role = (Roles)int.Parse(admConfig["Role"]);
 		admin.Id = int.Parse(admConfig["Id"]);
 		modelBuilder.Entity<User>().HasData(admin);
 

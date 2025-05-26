@@ -94,7 +94,7 @@ public class UserManager : IUserManager
 	{
 		if(_identity.Role != Roles.Owner)
 			throw new Exception("Access denied");
-		User user = await _repo.GetUserAsync(id);
+		User? user = await _repo.GetUserAsync(id);
 		if(user == null)
 			throw new Exception("User not found");
 		user.Role = Roles.Admin;

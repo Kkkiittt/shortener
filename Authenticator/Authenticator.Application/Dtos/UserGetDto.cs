@@ -1,4 +1,5 @@
 ﻿using Authenticator.Domain.Entities;
+using Authenticator.Domain.Enums;
 
 namespace Authenticator.Application.Dtos;
 
@@ -9,11 +10,12 @@ public class UserGetDto
 	public string Name { get; set; } = string.Empty;
 	public DateTime Created { get; set; }
 	public DateTime Updated { get; set; }
-	public long Role { get; set; }
+	public Roles Role { get; set; }
+	public long SubscriptionId { get; set; }
 	public double Balance { get; set; }
 
 	public static explicit operator UserGetDto(User user)
 	{
-		return new UserGetDto { Id = user.Id, Email = user.Email, Name = user.Name, Created = user.Created, Updated = user.Updated, Role = user.Role, Balance = user.Balance };
+		return new UserGetDto { Id = user.Id, Email = user.Email, Name = user.Name, Created = user.Created, Updated = user.Updated, Role = user.Role, Balance = user.Balance, SubscriptionId = user.SubscriptionId };
 	}//UserGetDto
 }
