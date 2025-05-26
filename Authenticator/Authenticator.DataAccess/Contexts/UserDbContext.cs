@@ -20,14 +20,11 @@ public class UserDbContext : DbContext
 		_config = config;
 	}
 
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-	{
-		optionsBuilder.UseNpgsql(_config.GetConnectionString("Database"));
-	}
-
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
+		Console.WriteLine("ONMODEL");
 		var admConfig = _config.GetSection("Admin");
+
 		string? email = admConfig["Email"],
 			password = admConfig["Password"],
 			name = admConfig["Name"],
@@ -36,14 +33,22 @@ public class UserDbContext : DbContext
 			role = admConfig["Role"],
 			id = admConfig["Id"];
 		if(email == null || password == null || name == null || created == null || balance == null || role == null || id == null)
-			throw new Exception("Admin configuration is not set.");
-		User admin = new User(email, Hasher.Hash(password), name);
-		admin.Created = DateTime.ParseExact(created, "dd/mm/yyyy", CultureInfo.InvariantCulture);
-		admin.Balance = int.Parse(balance);
-		admin.Role = (Roles)int.Parse(role);
-		admin.Id = int.Parse(id);
+		{
+			throw new Exception("Admin settings not found");
+		}
+		var admin = new User(
+				email,
+				password,
+				name
+			)
+		{
+			Created = DateTime.ParseExact(created, "dd/MM/yyyy", CultureInfo.InvariantCulture),
+			Balance = int.Parse(balance),
+			Role = (Roles)int.Parse(role),
+			Id = int.Parse(id),
+			Updated = DateTime.ParseExact(created, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+		};
 		modelBuilder.Entity<User>().HasData(admin);
-
 		base.OnModelCreating(modelBuilder);
 	}
 }
