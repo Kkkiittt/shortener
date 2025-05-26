@@ -1,8 +1,8 @@
 ﻿namespace Authenticator.Application.Helpers;
 
-public class PasswordHasher
+public static class PasswordHasher
 {
-	public string Hash(string password) => BCrypt.Net.BCrypt.HashPassword(password);
+	public static string Hash(string password) => BCrypt.Net.BCrypt.HashPassword(password);
 
-	public bool Verify(string password, string hashedPassword) => BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+	public static bool Verify(string password, string hashedPassword) => BCrypt.Net.BCrypt.Verify(password, hashedPassword);
 }

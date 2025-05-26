@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Configuration
+Authenticator/Authenticator.Api/appsettings.secure.json
