@@ -24,7 +24,8 @@ public class TokenGenerator : ITokenGenerator
 		{
 			new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 			new Claim(ClaimTypes.Email, user.Email),
-			new Claim(ClaimTypes.Role, user.Role.ToString())
+			new Claim(ClaimTypes.Role, user.Role.ToString()),
+			new Claim ("Subscription", user.SubscriptionId.ToString())
 		};
 		var jwtConfig = _config.GetSection("JWT");
 		SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"] ?? throw new ArgumentNullException()));
