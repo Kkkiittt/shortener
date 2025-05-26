@@ -6,6 +6,7 @@ using Authenticator.Application.Helpers;
 using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Domain.Entities;
+using Authenticator.Domain.Enums;
 
 using Microsoft.AspNetCore.Http;
 
@@ -34,7 +35,7 @@ public class UserManager : IUserManager
 		{
 			Balance = 0,
 			Created = DateTime.Now,
-			Role = 1,
+			Role = Roles.User,
 			Updated = DateTime.Now
 		};
 		return await _repo.CreateUserAsync(user);
@@ -50,7 +51,7 @@ public class UserManager : IUserManager
 		User user = await _repo.GetUserAsync(id);
 		if(user == null)
 			throw new Exception("User not found");
-		if(user.Role == 0 || user.Role == 2)
+		if(user.Role == Roles.Admin || user.Role == Roles.Owner)
 			throw new Exception("Access denied");
 		return await _repo.DeleteUserAsync(id);
 	}
@@ -89,29 +90,43 @@ public class UserManager : IUserManager
 
 	public async Task<bool> PromoteAsync(long id)
 	{
-		if(_identity.Role != 0)
+		if(_identity.Role != Roles.Owner)
 			throw new Exception("Access denied");
 		User user = await _repo.GetUserAsync(id);
-		user.Role = 2;
+		user.Role = Roles.Admin;
 		return await _repo.UpdateUserAsync(user);
 	}
 
 	public async Task<bool> DemoteAsync(long id)
 	{
-		if(_identity.Role != 0)
+		if(_identity.Role != Roles.Owner)
 			throw new Exception("Access denied");
 		User user = await _repo.GetUserAsync(id);
-		user.Role = 1;
+		user.Role = Roles.User;
 		return await _repo.UpdateUserAsync(user);
 	}
 
-	public Task<bool> SubscribeAsync(long subscription_id = 0)
+	public async Task<bool> SubscribeAsync(long subscriptionId = 0)
 	{
-		throw new NotImplementedException();
+		User user = await _repo.GetUserAsync(_identity.Id);
+		user.SubscriptionId = subscriptionId;
+		return await _repo.UpdateUserAsync(user);
 	}
 
-	public Task<bool> UpdateAsync(UserUpdateDto userDto)
+	public async Task<bool> UpdateAsync(UserUpdateDto userDto)
 	{
-		throw new NotImplementedException();
+		if(await _repo.AnyUserAsync(userDto.Email))
+		{
+			throw new Exception("User already exists");
+		}
+		User user = new(userDto.Email, Hasher.Hash(userDto.Password), userDto.Name)
+		{
+			Balance = 0,
+			Created = DateTime.Now,
+			Role = Roles.User,
+			Updated = DateTime.Now,
+			Id = _identity.Id
+		};
+		return await _repo.UpdateUserAsync(user);
 	}
 }
