@@ -28,11 +28,20 @@ public class UserDbContext : DbContext
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		var admConfig = _config.GetSection("Admin");
-		User admin = new User(admConfig["Email"], Hasher.Hash(admConfig["Password"]), admConfig["Name"]);
-		admin.Created = DateTime.ParseExact(admConfig["Created"], "dd/mm/yyyy", CultureInfo.InvariantCulture);
-		admin.Balance = int.Parse(admConfig["Balance"]);
-		admin.Role = (Roles)int.Parse(admConfig["Role"]);
-		admin.Id = int.Parse(admConfig["Id"]);
+		string? email = admConfig["Email"],
+			password = admConfig["Password"],
+			name = admConfig["Name"],
+			created = admConfig["Created"],
+			balance = admConfig["Balance"],
+			role = admConfig["Role"],
+			id = admConfig["Id"];
+		if(email == null || password == null || name == null || created == null || balance == null || role == null || id == null)
+			throw new Exception("Admin configuration is not set.");
+		User admin = new User(email, Hasher.Hash(password), name);
+		admin.Created = DateTime.ParseExact(created, "dd/mm/yyyy", CultureInfo.InvariantCulture);
+		admin.Balance = int.Parse(balance);
+		admin.Role = (Roles)int.Parse(role);
+		admin.Id = int.Parse(id);
 		modelBuilder.Entity<User>().HasData(admin);
 
 		base.OnModelCreating(modelBuilder);

@@ -27,7 +27,7 @@ public class TokenGenerator : ITokenGenerator
 			new Claim(ClaimTypes.Role, user.Role.ToString())
 		};
 		var jwtConfig = _config.GetSection("JWT");
-		SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"]));
+		SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"] ?? throw new ArgumentNullException()));
 		SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 		var token = new JwtSecurityToken(issuer: jwtConfig["Issuer"], audience: jwtConfig["Audience"], claims: claims, signingCredentials: credentials);
