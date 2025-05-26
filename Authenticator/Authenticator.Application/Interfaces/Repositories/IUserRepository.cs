@@ -20,5 +20,5 @@ public interface IUserRepository
 
 	public Task<bool> DeleteUserAsync(long id);
 
-	public IQueryable<User> GetUsers();
+	public Task<List<User>> GetUsers(int skip, int take);
 }
