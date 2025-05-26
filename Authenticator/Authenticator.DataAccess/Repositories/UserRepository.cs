@@ -19,7 +19,7 @@ public class UserRepository : IUserRepository
 	{
 		_context.Add(user);
 		await _context.SaveChangesAsync();
-		user = _context.Users.First(x => x.Email == user.Email);
+		user = await _context.Users.FirstAsync(x => x.Email == user.Email);
 		return user.Id;
 	}
 
