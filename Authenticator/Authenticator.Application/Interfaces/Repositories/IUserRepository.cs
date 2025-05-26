@@ -18,7 +18,11 @@ public interface IUserRepository
 
 	public Task<User> GetUserAsync(string email);
 
+	public Task<bool> AnyUserAsync(string email);
+
+	public Task<bool> AnyUserAsync(long id);
+
 	public Task<bool> DeleteUserAsync(long id);
 
-	public Task<List<User>> GetUsers(int skip, int take);
+	public Task<List<User>> GetUsersAsync(int skip, int take);
 }

@@ -4,9 +4,9 @@ namespace Authenticator.Application.Interfaces.Services;
 
 public interface IUserManager
 {
-	public Task<long> UpdateAsync(UserUpdateDto userDto);
+	public Task<bool> UpdateAsync(UserUpdateDto userDto);
 
-	public Task<bool> CreateAsync(UserCreateDto userDto);
+	public Task<long> CreateAsync(UserCreateDto userDto);
 
 	public Task<bool> DeleteAsync(long id);
 
@@ -16,7 +16,9 @@ public interface IUserManager
 
 	public Task<bool> PromoteAsync(long id);
 
-	public Task<bool> SubscribeAsync(long id, long subscription_id = 0);
+	public Task<bool> DemoteAsync(long id);
+
+	public Task<bool> SubscribeAsync(long subscription_id = 0);
 
 	public Task<string> LoginAsync(UserLoginDto userDto);
 }

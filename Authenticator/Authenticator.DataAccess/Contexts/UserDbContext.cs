@@ -26,9 +26,8 @@ public class UserDbContext : DbContext
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-
 		var admConfig = _config.GetSection("Admin");
-		User admin = new User(admConfig["Email"], PasswordHasher.Hash(admConfig["Password"]), admConfig["Name"]);
+		User admin = new User(admConfig["Email"], Hasher.Hash(admConfig["Password"]), admConfig["Name"]);
 		admin.Created = DateTime.ParseExact(admConfig["Created"], "dd/mm/yyyy", CultureInfo.InvariantCulture);
 		admin.Balance = int.Parse(admConfig["Balance"]);
 		admin.Role = int.Parse(admConfig["Role"]);

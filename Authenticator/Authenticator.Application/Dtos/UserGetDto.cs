@@ -1,4 +1,6 @@
-﻿namespace Authenticator.Application.Dtos;
+﻿using Authenticator.Domain.Entities;
+
+namespace Authenticator.Application.Dtos;
 
 public class UserGetDto
 {
@@ -9,4 +11,9 @@ public class UserGetDto
 	public DateTime Updated { get; set; }
 	public long Role { get; set; }
 	public double Balance { get; set; }
+
+	public static explicit operator UserGetDto(User user)
+	{
+		return new UserGetDto { Id = user.Id, Email = user.Email, Name = user.Name, Created = user.Created, Updated = user.Updated, Role = user.Role, Balance = user.Balance };
+	}//UserGetDto
 }

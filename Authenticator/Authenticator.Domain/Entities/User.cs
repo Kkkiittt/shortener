@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Authenticator.Domain.Enums;
+
 using Microsoft.EntityFrameworkCore;
 namespace Authenticator.Domain.Entities;
 [Index(nameof(Email), IsUnique = true)]
@@ -14,7 +16,8 @@ public class User
 	public string Name { get; set; }
 	public DateTime Created { get; set; }
 	public DateTime Updated { get; set; }
-	public long Role { get; set; }
+	public Roles Role { get; set; }
+	public long SubscriptionId { get; set; }
 	public double Balance { get; set; }
 
 	public User(string email, string passwordHash, string name)
@@ -24,6 +27,7 @@ public class User
 		Name = name;
 		Created = DateTime.Now;
 		Updated = DateTime.Now;
-		Role = 0;
+		Role = Roles.User;
+		SubscriptionId = 0;
 	}
 }
