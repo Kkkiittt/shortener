@@ -34,11 +34,20 @@ public class UserManager : IUserManager
 		User user = new(userDto.Email, Hasher.Hash(userDto.Password), userDto.Name)
 		{
 			Balance = 0,
-			Created = DateTime.Now,
+			Created = DateTime.UtcNow,
 			Role = Roles.User,
-			Updated = DateTime.Now
+			Updated = DateTime.UtcNow
 		};
 		return await _repo.CreateUserAsync(user);
+	}
+
+	public async Task<UserUpdateDto> GetTemplateAsync()
+	{
+		User? user = await _repo.GetUserAsync(_identity.Id);
+		if(user == null)
+			throw new Exception("User not found");
+		UserUpdateDto result = new(user.Id, user.Email, "", user.Name);
+		return result;
 	}
 
 	public async Task<bool> DeleteAsync(long id)
@@ -72,6 +81,10 @@ public class UserManager : IUserManager
 	{
 		if(!_identity.Admin)
 			throw new Exception("Access denied");
+		if(pageSize < 1 || page < 1)
+			throw new ArgumentException("Invalid arguments");
+		if(pageSize > 100)
+			pageSize = 100;
 		int skip = (page - 1) * pageSize;
 		List<User> users = await _repo.GetUsersAsync(skip, pageSize);
 		return users.Select(x => (UserGetDto)x).ToList();
@@ -125,19 +138,23 @@ public class UserManager : IUserManager
 
 	public async Task<bool> UpdateAsync(UserUpdateDto userDto)
 	{
-		if(await _repo.AnyUserAsync(userDto.Email))
+		User? emailUser = await _repo.GetUserAsync(userDto.Email);
+		if(emailUser != null && emailUser.Id != _identity.Id)
 		{
 			throw new Exception("Email already exists");
 		}
-		if(!await _repo.AnyUserAsync(userDto.Id))
+		User? user = await _repo.GetUserAsync(_identity.Id);
+		if(user == null)
 		{
 			throw new Exception("User not found");
 		}
-		User user = new(userDto.Email, Hasher.Hash(userDto.Password), userDto.Name)
+		user.Email = userDto.Email;
+		user.Name = userDto.Name;
+		user.Updated = DateTime.UtcNow;
+		if(userDto.Password != "")
 		{
-			Updated = DateTime.Now,
-			Id = _identity.Id
-		};
+			user.PasswordHash = Hasher.Hash(userDto.Password);
+		}
 		return await _repo.UpdateUserAsync(user);
 	}
 }
