@@ -143,7 +143,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpDelete("users/{id}/")]
+	[HttpDelete("{id}/")]
 	[Authorize]
 	public async Task<IActionResult> DeleteAsync(long id)
 	{
@@ -161,7 +161,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpGet("users/{id}/")]
+	[HttpGet("{id}/")]
 	[Authorize]
 	public async Task<IActionResult> GetUserAsync(long id)
 	{
@@ -179,7 +179,7 @@ public class AuthController : ControllerBase
 			return BadRequest(ex.Message);
 		}
 	}
-	[HttpGet("users/")]
+	[HttpGet("")]
 	[Authorize(Roles = "Admin, Owner")]
 	public async Task<IActionResult> GetUsersAsync(int page, int pageSize)
 	{
