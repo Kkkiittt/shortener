@@ -28,7 +28,7 @@ public class TokenGenerator : ITokenGenerator
 			new Claim ("Subscription", user.SubscriptionId.ToString())
 		};
 		var jwtConfig = _config.GetSection("JWT");
-		SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"] ?? throw new ArgumentNullException()));
+		SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"] ?? throw new ArgumentNullException("Key not found")));
 		SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
 		var token = new JwtSecurityToken(issuer: jwtConfig["Issuer"], audience: jwtConfig["Audience"], claims: claims, signingCredentials: credentials, expires: DateTime.Now.AddDays(1));

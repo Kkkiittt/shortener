@@ -22,5 +22,6 @@ public class User
 		Updated = DateTime.Now;
 		Role = Roles.User;
 		SubscriptionId = 0;
+		Balance = 0;
 	}
 }
