@@ -21,7 +21,6 @@ public class UserDbContext : DbContext
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		Console.WriteLine("ONMODEL");
 		var admConfig = _config.GetSection("Admin");
 
 		string? email = admConfig["Email"],
@@ -35,11 +34,7 @@ public class UserDbContext : DbContext
 		{
 			throw new Exception("Admin settings not found");
 		}
-		var admin = new User(
-				email,
-				password,
-				name
-			)
+		var admin = new User(email, password, name)
 		{
 			Created = DateTime.ParseExact(created, "dd/MM/yyyy", CultureInfo.InvariantCulture),
 			Balance = int.Parse(balance),
@@ -48,6 +43,8 @@ public class UserDbContext : DbContext
 			Updated = DateTime.ParseExact(created, "dd/MM/yyyy", CultureInfo.InvariantCulture)
 		};
 		modelBuilder.Entity<User>().HasData(admin);
+		modelBuilder.Entity<User>().HasIndex(x => x.Email).IsUnique();
+		modelBuilder.Entity<User>().HasKey(x => x.Id);
 		base.OnModelCreating(modelBuilder);
 	}
 }

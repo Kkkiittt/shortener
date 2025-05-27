@@ -1,6 +1,4 @@
 ﻿
-using System.Security.Claims;
-
 using Authenticator.Application.Dtos;
 using Authenticator.Application.Helpers;
 using Authenticator.Application.Interfaces.Repositories;
@@ -8,7 +6,6 @@ using Authenticator.Application.Interfaces.Services;
 using Authenticator.Domain.Entities;
 using Authenticator.Domain.Enums;
 
-using Microsoft.AspNetCore.Http;
 
 namespace Authenticator.Application.Services;
 

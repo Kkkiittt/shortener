@@ -1,5 +1,6 @@
 using System.Text;
 
+using Authenticator.Api.Services;
 using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Application.Services;
