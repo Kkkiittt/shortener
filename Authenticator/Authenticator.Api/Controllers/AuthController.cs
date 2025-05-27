@@ -58,6 +58,24 @@ public class AuthController : ControllerBase
 		}
 	}
 
+	[HttpPatch("subscribe/{subId}")]
+	[Authorize]
+	public async Task<IActionResult> SubscribeAsync(long subId)
+	{
+		try
+		{
+			var result = await _userManager.SubscribeAsync(subId);
+			if(result)
+				return NoContent();
+			else
+				return BadRequest();
+		}
+		catch(Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
 	[HttpPost("login/")]
 	[AllowAnonymous]
 	public async Task<IActionResult> LoginAsync(UserLoginDto dto)
@@ -125,7 +143,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpDelete("{id}/")]
+	[HttpDelete("users/{id}/")]
 	[Authorize]
 	public async Task<IActionResult> DeleteAsync(long id)
 	{
@@ -143,25 +161,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpPatch("subscribe/")]
-	[Authorize]
-	public async Task<IActionResult> SubscribeAsync(long subId)
-	{
-		try
-		{
-			var result = await _userManager.SubscribeAsync(subId);
-			if(result)
-				return NoContent();
-			else
-				return BadRequest();
-		}
-		catch(Exception ex)
-		{
-			return BadRequest(ex.Message);
-		}
-	}
-
-	[HttpGet("{id}/")]
+	[HttpGet("users/{id}/")]
 	[Authorize]
 	public async Task<IActionResult> GetUserAsync(long id)
 	{
