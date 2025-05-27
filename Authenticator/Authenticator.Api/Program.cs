@@ -8,10 +8,7 @@ using Authenticator.DataAccess.Contexts;
 using Authenticator.DataAccess.Repositories;
 
 
-// Add the following NuGet package to your project if not already installed:
-// Microsoft.AspNetCore.Authentication.JwtBearer
-// You can do this by running the following command in the terminal:
-// dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -72,9 +69,6 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
 	};
 });
 builder.Services.AddAuthorization();
-
-//var context = builder.Services.BuildServiceProvider().GetRequiredService<UserDbContext>();
-//Console.WriteLine(context.Users.ToList()[0]);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

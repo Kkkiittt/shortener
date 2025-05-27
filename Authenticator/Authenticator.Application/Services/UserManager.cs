@@ -80,8 +80,8 @@ public class UserManager : IUserManager
 			throw new Exception("Access denied");
 		if(pageSize < 1 || page < 1)
 			throw new ArgumentException("Invalid arguments");
-		if(pageSize > 100)
-			pageSize = 100;
+		if(pageSize > 50)
+			pageSize = 50;
 		int skip = (page - 1) * pageSize;
 		List<User> users = await _repo.GetUsersAsync(skip, pageSize);
 		return users.Select(x => (UserGetDto)x).ToList();
