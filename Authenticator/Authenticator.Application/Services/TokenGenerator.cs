@@ -31,7 +31,7 @@ public class TokenGenerator : ITokenGenerator
 		SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"] ?? throw new ArgumentNullException()));
 		SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-		var token = new JwtSecurityToken(issuer: jwtConfig["Issuer"], audience: jwtConfig["Audience"], claims: claims, signingCredentials: credentials);
+		var token = new JwtSecurityToken(issuer: jwtConfig["Issuer"], audience: jwtConfig["Audience"], claims: claims, signingCredentials: credentials, expires: DateTime.Now.AddDays(1));
 		return new JwtSecurityTokenHandler().WriteToken(token);
 	}
 }

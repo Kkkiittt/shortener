@@ -97,7 +97,8 @@ public class UserManager : IUserManager
 		User? user = await _repo.GetUserAsync(id);
 		if(user == null)
 			throw new Exception("User not found");
-		user.Role = Roles.Admin;
+		if(user.Role != Roles.Owner)
+			user.Role = Roles.Admin;
 		return await _repo.UpdateUserAsync(user);
 	}
 
@@ -108,7 +109,8 @@ public class UserManager : IUserManager
 		User? user = await _repo.GetUserAsync(id);
 		if(user == null)
 			throw new Exception("User not found");
-		user.Role = Roles.User;
+		if(user.Role != Roles.Owner)
+			user.Role = Roles.User;
 		return await _repo.UpdateUserAsync(user);
 	}
 

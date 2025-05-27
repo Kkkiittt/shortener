@@ -44,7 +44,7 @@ public class UserIdentifier : IUserIdentifier
 	{
 		get
 		{
-			return (Roles)Enum.Parse(typeof(Roles), _accessor.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value ?? throw new InvalidOperationException("Invalid token"));
+			return (Roles)Enum.Parse(typeof(Roles), _accessor.HttpContext.User.FindFirst(ClaimTypes.Role)?.Value ?? throw new InvalidOperationException("Invalid token" + (_accessor.HttpContext.User.Claims.Count())));
 		}
 	}
 
