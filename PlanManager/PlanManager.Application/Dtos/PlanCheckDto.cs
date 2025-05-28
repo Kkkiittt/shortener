@@ -1,4 +1,4 @@
-﻿namespace LinkManager.Application.Dtos;
+﻿namespace PlanManager.Application.Dtos;
 
 public class PlanCheckDto
 {

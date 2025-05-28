@@ -1,10 +1,11 @@
-﻿using LinkManager.Application.Dtos;
+﻿using LinkManager.Application.Interfaces.Dtos;
 
 namespace LinkManager.Application.Interfaces.Services;
 
+
 public interface IClientValidator
 {
-	public bool Validate(PlanCheckDto dto);
+	public bool Validate(ClientCheckDto dto);
 }
 
 
