@@ -132,10 +132,9 @@ public class AuthController : ControllerBase
 		{
 			var template = await _userManager.GetTemplateAsync();
 			if(template == null)
-			{
 				return BadRequest();
-			}
-			return Ok(template);
+			else
+				return Ok(template);
 		}
 		catch(Exception ex)
 		{
@@ -169,10 +168,10 @@ public class AuthController : ControllerBase
 		{
 			var user = await _userManager.GetUserAsync(id);
 			if(user == null)
-			{
+
 				return BadRequest();
-			}
-			return Ok(user);
+			else
+				return Ok(user);
 		}
 		catch(Exception ex)
 		{
@@ -187,10 +186,9 @@ public class AuthController : ControllerBase
 		{
 			var users = await _userManager.GetUsersAsync(page, pageSize);
 			if(users == null)
-			{
 				return BadRequest();
-			}
-			return Ok(users);
+			else
+				return Ok(users);
 		}
 		catch(Exception ex)
 		{
