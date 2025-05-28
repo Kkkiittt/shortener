@@ -1,4 +1,4 @@
-﻿namespace LinkManager.Application.Interfaces.Dtos;
+﻿namespace LinkManager.Application.Dtos;
 
 public class ClientCheckDto
 {

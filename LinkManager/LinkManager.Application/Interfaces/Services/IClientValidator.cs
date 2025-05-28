@@ -1,4 +1,4 @@
-﻿using LinkManager.Application.Interfaces.Dtos;
+﻿using LinkManager.Application.Dtos;
 
 namespace LinkManager.Application.Interfaces.Services;
 
