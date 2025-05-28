@@ -5,6 +5,7 @@ namespace LinkManager.Application.Dtos;
 public class LinkGetAdminDto
 {
 	public long Id { get; set; }
+	public long UserId { get; set; }
 	public string Url { get; set; } = string.Empty;
 	public DateTime Created { get; set; }
 	public DateTime Updated { get; set; }
@@ -17,6 +18,7 @@ public class LinkGetAdminDto
 		return new LinkGetAdminDto
 		{
 			Id = link.Id,
+			UserId = link.UserId,
 			Url = link.Url,
 			Created = link.Created,
 			Updated = link.Updated,
