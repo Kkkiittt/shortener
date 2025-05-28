@@ -58,7 +58,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpPatch("subscribe/{subId}")]
+	[HttpPatch("subscriptions/{subId}")]
 	[Authorize]
 	public async Task<IActionResult> SubscribeAsync(long subId)
 	{
