@@ -22,7 +22,7 @@ public class UserManager : IUserManager
 		_identity = identity;
 	}
 
-	public async Task<long> CreateAsync(UserCreateDto userDto)
+	public async Task<bool> CreateAsync(UserCreateDto userDto)
 	{
 		if(await _repo.AnyUserAsync(userDto.Email))
 			throw new Exception("User already exists");
@@ -35,7 +35,8 @@ public class UserManager : IUserManager
 			Updated = DateTime.UtcNow
 		};
 
-		return await _repo.CreateUserAsync(user);
+		var res = _repo.CreateUser(user);
+		return await _repo.SaveChangesAsync();
 	}
 
 	public async Task<UserUpdateDto> GetTemplateAsync()
@@ -63,7 +64,8 @@ public class UserManager : IUserManager
 		if(user.Role == Roles.Admin || user.Role == Roles.Owner)
 			throw new Exception("Access denied");
 
-		return await _repo.DeleteUserAsync(id);
+		_repo.DeleteUser(user);
+		return await _repo.SaveChangesAsync();
 	}
 
 	public async Task<UserGetDto> GetUserAsync(long id)
@@ -121,7 +123,8 @@ public class UserManager : IUserManager
 		if(user.Role != Roles.Owner)
 			user.Role = Roles.Admin;
 
-		return await _repo.UpdateUserAsync(user);
+		_repo.UpdateUser(user);
+		return await _repo.SaveChangesAsync();
 	}
 
 	public async Task<bool> DemoteAsync(long id)
@@ -137,7 +140,8 @@ public class UserManager : IUserManager
 		if(user.Role != Roles.Owner)
 			user.Role = Roles.User;
 
-		return await _repo.UpdateUserAsync(user);
+		_repo.UpdateUser(user);
+		return await _repo.SaveChangesAsync();
 	}
 
 	public async Task<bool> SubscribeAsync(long subscriptionId = 0)
@@ -148,7 +152,8 @@ public class UserManager : IUserManager
 			throw new Exception("User not found");
 
 		user.SubscriptionId = subscriptionId;
-		return await _repo.UpdateUserAsync(user);
+		_repo.UpdateUser(user);
+		return await _repo.SaveChangesAsync();
 	}
 
 	public async Task<bool> UpdateAsync(UserUpdateDto userDto)
@@ -167,6 +172,7 @@ public class UserManager : IUserManager
 		if(userDto.Password != "")
 			user.PasswordHash = Hasher.Hash(userDto.Password);
 
-		return await _repo.UpdateUserAsync(user);
+		_repo.UpdateUser(user);
+		return await _repo.SaveChangesAsync();
 	}
 }

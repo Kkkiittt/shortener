@@ -4,9 +4,11 @@ namespace Authenticator.Application.Interfaces.Repositories;
 
 public interface IUserRepository
 {
-	public Task<long> CreateUserAsync(User user);
+	public long CreateUser(User user);
 
-	public Task<bool> UpdateUserAsync(User user);
+	public bool UpdateUser(User user);
+
+	public bool DeleteUser(User user);
 
 	public Task<User?> GetUserAsync(long id);
 
@@ -16,7 +18,7 @@ public interface IUserRepository
 
 	public Task<bool> AnyUserAsync(long id);
 
-	public Task<bool> DeleteUserAsync(long id);
-
 	public Task<List<User>> GetUsersAsync(int skip, int take);
+
+	public Task<bool> SaveChangesAsync();
 }

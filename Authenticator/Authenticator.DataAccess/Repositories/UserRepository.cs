@@ -15,18 +15,16 @@ public class UserRepository : IUserRepository
 		_context = context;
 	}
 
-	public async Task<long> CreateUserAsync(User user)
+	public long CreateUser(User user)
 	{
 		_context.Add(user);
-		await _context.SaveChangesAsync();
-		user = await _context.Users.FirstAsync(x => x.Email == user.Email);
 		return user.Id;
 	}
 
-	public async Task<bool> DeleteUserAsync(long id)
+	public bool DeleteUser(User user)
 	{
-		_context.Remove(id);
-		return await _context.SaveChangesAsync() > 0;
+		_context.Remove(user);
+		return true;
 	}
 
 	public async Task<User?> GetUserAsync(long id)
@@ -44,10 +42,10 @@ public class UserRepository : IUserRepository
 		return await _context.Users.Skip(skip).Take(take).ToListAsync();
 	}
 
-	public async Task<bool> UpdateUserAsync(User user)
+	public bool UpdateUser(User user)
 	{
 		_context.Update(user);
-		return await _context.SaveChangesAsync() > 0;
+		return true;
 	}
 
 	public async Task<bool> AnyUserAsync(string email)
@@ -58,5 +56,10 @@ public class UserRepository : IUserRepository
 	public async Task<bool> AnyUserAsync(long id)
 	{
 		return await _context.Users.FindAsync(id) != null;
+	}
+
+	public async Task<bool> SaveChangesAsync()
+	{
+		return await _context.SaveChangesAsync() > 0;
 	}
 }

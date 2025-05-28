@@ -8,7 +8,7 @@ public interface IUserManager
 
 	public Task<UserUpdateDto> GetTemplateAsync();
 
-	public Task<long> CreateAsync(UserCreateDto userDto);
+	public Task<bool> CreateAsync(UserCreateDto userDto);
 
 	public Task<bool> DeleteAsync(long id);
 

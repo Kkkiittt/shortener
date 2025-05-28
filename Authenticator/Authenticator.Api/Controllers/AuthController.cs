@@ -97,8 +97,11 @@ public class AuthController : ControllerBase
 	{
 		try
 		{
-			var id = await _userManager.CreateAsync(dto);
-			return Ok(id);
+			var res = await _userManager.CreateAsync(dto);
+			if(res)
+				return NoContent();
+			else
+				return BadRequest();
 		}
 		catch(Exception ex)
 		{
@@ -156,7 +159,7 @@ public class AuthController : ControllerBase
 		}
 		catch(Exception ex)
 		{
-			return BadRequest(ex.Message);
+			return BadRequest(ex.Message + ex.StackTrace);
 		}
 	}
 
