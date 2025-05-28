@@ -20,11 +20,17 @@ var builder = WebApplication.CreateBuilder();
 builder.Configuration.AddJsonFile("appsettings.secure.json");
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddDbContext<UserDbContext>((service, options) =>
+{
+	var config = service.GetRequiredService<IConfiguration>();
+	var connect = config.GetConnectionString("Database");
+	options.UseNpgsql(connect);
+});
 builder.Services.AddSwaggerGen(c =>
 {
 	c.AddSecurityDefinition("Bearer", new()
@@ -42,19 +48,15 @@ builder.Services.AddSwaggerGen(c =>
 				Reference = new OpenApiReference {
 					Type = ReferenceType.SecurityScheme,
 					Id = "Bearer"
-				}
+				},
 			},
 			Array.Empty<string>()
 		}
 	});
 });
-builder.Services.AddDbContext<UserDbContext>((service, options) =>
-{
-	var config = service.GetRequiredService<IConfiguration>();
-	var connect = config.GetConnectionString("Database");
-	options.UseNpgsql(connect);
-});
+
 var config = builder.Configuration.GetSection("JWT");
+builder.Services.AddAuthorization();
 builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
 {
 	options.TokenValidationParameters = new()
@@ -68,7 +70,7 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
 		ValidateLifetime = true
 	};
 });
-builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -17,5 +17,5 @@ public class UserGetDto
 	public static explicit operator UserGetDto(User user)
 	{
 		return new UserGetDto { Id = user.Id, Email = user.Email, Name = user.Name, Created = user.Created, Updated = user.Updated, Role = user.Role, Balance = user.Balance, SubscriptionId = user.SubscriptionId };
-	}//UserGetDto
+	}
 }

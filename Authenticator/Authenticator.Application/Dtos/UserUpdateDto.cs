@@ -1,4 +1,5 @@
 ﻿namespace Authenticator.Application.Dtos;
+
 public class UserUpdateDto : UserCreateDto
 {
 	public long Id { get; set; }
