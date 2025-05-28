@@ -8,7 +8,7 @@ namespace Authenticator.Api.Controllers;
 
 
 [ApiController]
-[Route("auth/")]
+[Route("users/")]
 public class AuthController : ControllerBase
 {
 	private readonly IUserManager _userManager;
