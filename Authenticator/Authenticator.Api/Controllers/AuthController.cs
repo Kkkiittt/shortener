@@ -8,7 +8,7 @@ namespace Authenticator.Api.Controllers;
 
 
 [ApiController]
-[Route("users/")]
+[Route("users")]
 public class AuthController : ControllerBase
 {
 	private readonly IUserManager _userManager;
@@ -76,7 +76,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpPost("login/")]
+	[HttpPost("login")]
 	[AllowAnonymous]
 	public async Task<IActionResult> LoginAsync(UserLoginDto dto)
 	{
@@ -91,7 +91,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpPost("register/")]
+	[HttpPost("register")]
 	[AllowAnonymous]
 	public async Task<IActionResult> RegisterAsync(UserCreateDto dto)
 	{
@@ -106,7 +106,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpPut("update/")]
+	[HttpPut("update")]
 	[Authorize]
 	public async Task<IActionResult> UpdateAsync(UserUpdateDto dto)
 	{
@@ -124,7 +124,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpGet("update/")]
+	[HttpGet("update")]
 	[Authorize]
 	public async Task<IActionResult> GetTemplateAsync()
 	{
@@ -142,7 +142,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpDelete("{id}/")]
+	[HttpDelete("{id}")]
 	[Authorize]
 	public async Task<IActionResult> DeleteAsync(long id)
 	{
@@ -160,7 +160,7 @@ public class AuthController : ControllerBase
 		}
 	}
 
-	[HttpGet("{id}/")]
+	[HttpGet("{id}")]
 	[Authorize]
 	public async Task<IActionResult> GetUserAsync(long id)
 	{
