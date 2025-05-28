@@ -1,4 +1,6 @@
-﻿using Authenticator.DataAccess.Contexts;
+﻿using Authenticator.DataAccess.Configurations;
+using Authenticator.DataAccess.Contexts;
+using Authenticator.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -14,18 +16,20 @@ public class UserDbContextFactory : IDesignTimeDbContextFactory<UserDbContext>
 		var basePath = AppContext.BaseDirectory;
 		var configPath = Path.Combine(basePath, "..", "..", "..", "..", "Authenticator.Api");
 
-		IConfigurationRoot configuration = new ConfigurationBuilder()
+		IConfigurationRoot config = new ConfigurationBuilder()
 			.SetBasePath(configPath)
 			.AddJsonFile("appsettings.secure.json")
 			.Build();
 
+		IEntityTypeConfiguration<User> userConfig = new UserEntityTypeConfiguration(config);
+
 		var builder = new DbContextOptionsBuilder<UserDbContext>();
-		var connectionString = configuration.GetConnectionString("Database");
+		var connectionString = config.GetConnectionString("Database");
 
 		builder.UseNpgsql(connectionString);
 
 
-		var context = new UserDbContext(builder.Options, configuration);
+		var context = new UserDbContext(builder.Options, userConfig);
 
 
 		return context;

@@ -4,10 +4,10 @@ using Authenticator.Api.Services;
 using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Application.Services;
+using Authenticator.DataAccess.Configurations;
 using Authenticator.DataAccess.Contexts;
 using Authenticator.DataAccess.Repositories;
-
-
+using Authenticator.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -25,6 +25,7 @@ builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IEntityTypeConfiguration<User>, UserEntityTypeConfiguration>();
 builder.Services.AddDbContext<UserDbContext>((service, options) =>
 {
 	var config = service.GetRequiredService<IConfiguration>();
