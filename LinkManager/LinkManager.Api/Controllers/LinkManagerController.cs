@@ -1,6 +1,7 @@
 ﻿using LinkManager.Application.Dtos;
 using LinkManager.Application.Interfaces.Services;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LinkManager.Api.Controllers;
@@ -15,6 +16,7 @@ public class LinkManagerController : ControllerBase
 		_manager = manager;
 	}
 
+	[HttpPost]
 	public async Task<IActionResult> CreateLinkAsync(LinkCreateDto dto)
 	{
 		try
@@ -32,11 +34,13 @@ public class LinkManagerController : ControllerBase
 		}
 	}
 
-	public async Task<IActionResult> GetLinkAsync(string shortLink)
+	[HttpGet("{shortLink}")]
+	[AllowAnonymous]
+	public async Task<IActionResult> GetLinkAsync(string shortLink, string? password = null)
 	{
 		try
 		{
-			var res = await _manager.GetLinkAsync(shortLink);
+			var res = await _manager.GetLinkAsync(shortLink, password);
 			if(res == null)
 			{
 				return BadRequest();
