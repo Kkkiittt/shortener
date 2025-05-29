@@ -5,12 +5,15 @@ namespace LinkManager.Application.Dtos;
 public class ClientCheckDto
 {
 	public long PlanId { get; set; }
-	public int ClientLinks { get; set; }
-	public int Lifetime { get; set; }
+	public int LinkCount { get; set; }
+	public int LinkLifetime { get; set; }
 	public ClientAction Action { get; set; }
 
-	public ClientCheckDto()
+	public ClientCheckDto(long planId, int linkCount, int linkLifetime, ClientAction action)
 	{
-		throw new NotImplementedException();
+		PlanId = planId;
+		LinkCount = linkCount;
+		LinkLifetime = linkLifetime;
+		Action = action;
 	}
 }
