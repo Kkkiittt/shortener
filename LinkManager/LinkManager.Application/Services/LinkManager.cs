@@ -9,13 +9,13 @@ namespace LinkManager.Application.Services;
 
 public class LinkManager : ILinkManager
 {
-	private readonly IClientValidator _validator;
+	//private readonly IClientValidator _validator;
 	private readonly ILinkRepository _repo;
 	private readonly IUserIdentifier _user;
 
-	public LinkManager(IClientValidator validator, ILinkRepository repo, IUserIdentifier userIdentifier)
+	public LinkManager(/* IClientValidator validator,*/ ILinkRepository repo, IUserIdentifier userIdentifier)
 	{
-		_validator = validator;
+		//_validator = validator;
 		_repo = repo;
 		_user = userIdentifier;
 	}
@@ -179,6 +179,7 @@ public class LinkManager : ILinkManager
 
 		if(link.UserId != _user.Id)
 			throw new Exception("Access denied");
+
 		link.Url = dto.LongLink;
 		link.LifeTime = dto.Lifetime;
 
