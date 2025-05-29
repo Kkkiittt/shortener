@@ -7,13 +7,13 @@ using LinkManager.Domain.Entities;
 
 namespace LinkManager.Application.Services;
 
-public class LinkManager : ILinkManager
+public class LinkService : ILinkService
 {
 	//private readonly IClientValidator _validator;
 	private readonly ILinkRepository _repo;
 	private readonly IUserIdentifier _user;
 
-	public LinkManager(/* IClientValidator validator,*/ ILinkRepository repo, IUserIdentifier userIdentifier)
+	public LinkService(/* IClientValidator validator,*/ ILinkRepository repo, IUserIdentifier userIdentifier)
 	{
 		//_validator = validator;
 		_repo = repo;
@@ -72,11 +72,11 @@ public class LinkManager : ILinkManager
 
 		link.Clicks++;
 		_repo.UpdateLink(link);
-		_ = Task.Run(async () =>
-		{
-			var scope = _repo;
-			await scope.SaveChangesAsync();
-		});
+		//_ = Task.Run(async () =>
+		//{
+		//	var scope = _repo;
+			await _repo.SaveChangesAsync();
+		//});
 
 		return link.Url;
 	}

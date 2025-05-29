@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace LinkManager.Api.Controllers;
 [ApiController]
 [Route("links")]
-public class LinkManagerController : ControllerBase
+public class LinkController : ControllerBase
 {
-	private readonly ILinkManager _manager;
+	private readonly ILinkService _manager;
 
-	public LinkManagerController(ILinkManager manager)
+	public LinkController(ILinkService manager)
 	{
 		_manager = manager;
 	}
 
 	[HttpPost]
+	[Authorize]
 	public async Task<IActionResult> CreateLinkAsync(LinkCreateDto dto)
 	{
 		try
@@ -41,6 +42,25 @@ public class LinkManagerController : ControllerBase
 		try
 		{
 			var res = await _manager.GetLinkAsync(shortLink, password);
+			if(res == null)
+			{
+				return BadRequest();
+			}
+			return Ok(res);
+		}
+		catch(Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
+
+	[HttpGet("full-info")]
+	[Authorize(Roles = "Admin, Owner")]
+	public async Task<IActionResult> GetLinksFullInfoAsync(int page, int pageSize)
+	{
+		try
+		{
+			var res = await _manager.GetLinksFullInfoAsync(page, pageSize);
 			if(res == null)
 			{
 				return BadRequest();

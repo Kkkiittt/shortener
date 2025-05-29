@@ -2,7 +2,7 @@
 
 namespace LinkManager.Application.Interfaces.Services;
 
-public interface ILinkManager
+public interface ILinkService
 {
 	public Task<string> GetLinkAsync(string shortLink, string? password = null);
 
