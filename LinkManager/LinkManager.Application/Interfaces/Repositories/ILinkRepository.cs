@@ -4,7 +4,7 @@ namespace LinkManager.Application.Interfaces.Repositories;
 
 public interface ILinkRepository
 {
-	public long CreateLink(Link link);
+	public bool CreateLink(Link link);
 
 	public bool UpdateLink(Link link);
 

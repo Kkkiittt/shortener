@@ -9,7 +9,7 @@ public class UserDbContext : DbContext
 {
 	private readonly IEntityTypeConfiguration<User> _userConfig;
 
-	public DbSet<User> Users { get; set; } = null!;
+	public DbSet<User> Users { get; protected set; } = null!;
 
 	public UserDbContext(DbContextOptions<UserDbContext> options, IEntityTypeConfiguration<User> userConfig) : base(options)
 	{
