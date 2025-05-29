@@ -402,3 +402,4 @@ FodyWeavers.xsd
 
 # Configuration
 Authenticator/Authenticator.Api/appsettings.secure.json
+LinkManager/LinkManager.Api/appsettings.secure.json
