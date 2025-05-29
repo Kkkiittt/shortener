@@ -4,13 +4,13 @@ namespace LinkManager.Application.Helpers;
 
 public static class Encoder
 {
-	public static string Encode(string plainText)
+	public static string Encode(long id)
 	{
-		return Convert.ToBase64String(Encoding.UTF8.GetBytes(plainText));
+		return Convert.ToBase64String(BitConverter.GetBytes(id));
 	}
 
-	public static string Decode(string encodedData)
+	public static long Decode(string encodedData)
 	{
-		return Encoding.UTF8.GetString(Convert.FromBase64String(encodedData));
+		return BitConverter.ToInt64(Convert.FromBase64String(encodedData));
 	}
 }

@@ -4,9 +4,9 @@ namespace LinkManager.Application.Interfaces.Services;
 
 public interface ILinkManager
 {
-	public Task<string> GetLinkAsync(string shortLink);
+	public Task<string> GetLinkAsync(string shortLink, string? password = null);
 
-	public Task<string> CreatekAsync(LinkCreateDto dto);
+	public Task<string> CreateLinkAsync(LinkCreateDto dto);
 
 	public Task<bool> DeleteAsync(string shortLink);
 

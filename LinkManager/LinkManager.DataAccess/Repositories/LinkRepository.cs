@@ -54,4 +54,9 @@ public class LinkRepository : ILinkRepository
 	{
 		return await _context.SaveChangesAsync() > 0;
 	}
+
+	public async Task<int> GetLinkCountAsync(long userId)
+	{
+		return await _context.Links.Where(x => x.UserId == userId).CountAsync();
+	}
 }

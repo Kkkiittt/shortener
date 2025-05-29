@@ -16,5 +16,7 @@ public interface ILinkRepository
 
 	public Task<List<Link>> GetLinksAsync(long userId);
 
+	public Task<int> GetLinkCountAsync(long userId);
+
 	public Task<bool> SaveChangesAsync();
 }
