@@ -38,7 +38,7 @@ public class LinkService : ILinkService
 		return Encoder.Encode(link.Id);
 	}
 
-	public async Task<bool> DeleteAsync(string shortLink)
+	public async Task<bool> DeleteLinkAsync(string shortLink)
 	{
 		long id = Encoder.Decode(shortLink);
 		Link? link = await _repo.GetLinkAsync(id);
@@ -75,10 +75,25 @@ public class LinkService : ILinkService
 		//_ = Task.Run(async () =>
 		//{
 		//	var scope = _repo;
-			await _repo.SaveChangesAsync();
+		await _repo.SaveChangesAsync();
 		//});
 
 		return link.Url;
+	}
+
+	public async Task<LinkUpdateDto> GetTemplateAsync(string shortLink)
+	{
+		long id = Encoder.Decode(shortLink);
+		Link? link = await _repo.GetLinkAsync(id);
+
+		if(link == null)
+			throw new Exception("Link not found");
+
+		if(link.UserId != _user.Id && !_user.IsAdmin)
+			throw new Exception("Access denied");
+
+		LinkUpdateDto dto = new(shortLink, link.Url, "", link.LifeTime);
+		return dto;
 	}
 
 	public async Task<LinkGetFullDto> GetLinkFullInfoAsync(long id)
@@ -169,7 +184,7 @@ public class LinkService : ILinkService
 		}).ToList();
 	}
 
-	public async Task<bool> UpdateAsync(LinkUpdateDto dto)
+	public async Task<bool> UpdateLinkAsync(LinkUpdateDto dto)
 	{
 		long id = Encoder.Decode(dto.ShortLink);
 		Link? link = await _repo.GetLinkAsync(id);
@@ -183,10 +198,10 @@ public class LinkService : ILinkService
 		link.Url = dto.LongLink;
 		link.LifeTime = dto.Lifetime;
 
-		if(dto.Password != null)
-			link.PasswordHash = Hasher.Hash(dto.Password);
-		else
+		if(dto.Password == null)
 			link.PasswordHash = null;
+		else if(dto.Password != "")
+			link.PasswordHash = Hasher.Hash(dto.Password);
 
 		link.Updated = DateTime.UtcNow;
 

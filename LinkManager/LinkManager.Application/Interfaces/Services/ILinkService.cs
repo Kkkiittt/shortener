@@ -8,9 +8,11 @@ public interface ILinkService
 
 	public Task<string> CreateLinkAsync(LinkCreateDto dto);
 
-	public Task<bool> DeleteAsync(string shortLink);
+	public Task<bool> DeleteLinkAsync(string shortLink);
 
-	public Task<bool> UpdateAsync(LinkUpdateDto dto);
+	public Task<bool> UpdateLinkAsync(LinkUpdateDto dto);
+
+	public Task<LinkUpdateDto> GetTemplateAsync(string shortLink);
 
 	public Task<LinkGetDto> GetLinkInfoAsync(string shortLink);
 
