@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -20,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PlanManager\PlanManager.Application\PlanManager.Application.csproj" />
     <ProjectReference Include="..\LinkManager.Application\LinkManager.Application.csproj" />
     <ProjectReference Include="..\LinkManager.Domain\LinkManager.Domain.csproj" />
   </ItemGroup>
