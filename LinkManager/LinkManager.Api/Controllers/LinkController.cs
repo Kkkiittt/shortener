@@ -96,11 +96,11 @@ public class LinkController : ControllerBase
 			{
 				return BadRequest();
 			}
-			return Ok(res);
+			return Redirect(res);
 		}
 		catch(Exception ex)
 		{
-			return BadRequest(ex.Message);
+			return BadRequest(ex.Message+ex.StackTrace+" "+shortLink);
 		}
 	}
 
