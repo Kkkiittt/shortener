@@ -10,7 +10,7 @@ public interface IPlanRepository
 
 	public bool UpdatePlan(Plan plan);
 
-	public Task<Plan> GetPlanAsync(int id);
+	public Task<Plan?> GetPlanAsync(int id);
 
 	public Task<List<Plan>> GetPlansAsync(int skip, int take);
 

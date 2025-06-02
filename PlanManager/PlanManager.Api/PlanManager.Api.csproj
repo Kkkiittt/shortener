@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PlanManager.Application\PlanManager.Application.csproj" />
+    <ProjectReference Include="..\PlanManager.DataAccess\PlanManager.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
