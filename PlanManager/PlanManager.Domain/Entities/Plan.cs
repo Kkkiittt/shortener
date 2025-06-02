@@ -13,12 +13,12 @@ public class Plan
 	public int MaxLinkLifetime { get; set; }
 	public int MaxLinkCount { get; set; }
 
-	public Plan(string name, int maxLifetime, int maxLinks, List<PlanAction> actions)
+	public Plan(string name, int maxLinkLifetime, int maxLinkCount, List<PlanAction> actions, string description="")
 	{
 		Name = name;
-		MaxLinkLifetime = maxLifetime;
-		MaxLinkCount = maxLinks;
+		MaxLinkLifetime = maxLinkLifetime;
+		MaxLinkCount = maxLinkCount;
 		Actions = actions;
-		Description = string.Empty;
+		Description = description;
 	}
 }

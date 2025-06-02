@@ -14,5 +14,7 @@ public interface IPlanRepository
 
 	public Task<List<Plan>> GetPlansAsync(int skip, int take);
 
+	public Task<List<Plan>> GetPlansAsync();
+
 	public Task<bool> SaveChangesAsync();
 }
