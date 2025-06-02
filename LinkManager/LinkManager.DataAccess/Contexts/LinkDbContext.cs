@@ -1,4 +1,5 @@
-﻿using LinkManager.Domain.Entities;
+﻿using LinkManager.DataAccess.Configurations;
+using LinkManager.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -6,13 +7,13 @@ namespace LinkManager.DataAccess.Contexts;
 
 public class LinkDbContext : DbContext
 {
-	public readonly IEntityTypeConfiguration<Link> _config;
+	private readonly IEntityTypeConfiguration<Link> _config;
 
 	public DbSet<Link> Links { get; protected set; } = null!;
 
-	public LinkDbContext(DbContextOptions<LinkDbContext> options, IEntityTypeConfiguration<Link> config) : base(options)
+	public LinkDbContext(DbContextOptions<LinkDbContext> options) : base(options)
 	{
-		_config = config;
+		_config = new LinkEntityTypeConfiguration();
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -10,13 +10,13 @@ namespace LinkManager.Application.Services;
 public class LinkService : ILinkService
 {
 	//private readonly IClientValidator _validator;
-	private readonly ILinkRepository _repo;
+	private readonly ILinkRepository _linkRepo;
 	private readonly IUserIdentifier _user;
 
-	public LinkService(/* IClientValidator validator,*/ ILinkRepository repo, IUserIdentifier userIdentifier)
+	public LinkService(/* IClientValidator validator,*/ ILinkRepository linkRepo, IUserIdentifier userIdentifier)
 	{
 		//_validator = validator;
-		_repo = repo;
+		_linkRepo = linkRepo;
 		_user = userIdentifier;
 	}
 
@@ -33,15 +33,15 @@ public class LinkService : ILinkService
 			Updated = DateTime.UtcNow,
 		};
 
-		_repo.CreateLink(link);
-		await _repo.SaveChangesAsync();
+		_linkRepo.CreateLink(link);
+		await _linkRepo.SaveChangesAsync();
 		return Encoder.Encode(link.Id);
 	}
 
 	public async Task<bool> DeleteLinkAsync(string shortLink)
 	{
 		long id = Encoder.Decode(shortLink);
-		Link? link = await _repo.GetLinkAsync(id);
+		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
 			throw new Exception("Link not found");
@@ -49,14 +49,14 @@ public class LinkService : ILinkService
 		if(link.UserId != _user.Id && !_user.IsAdmin)
 			throw new Exception("Access denied");
 
-		_repo.DeleteLink(link);
-		return await _repo.SaveChangesAsync();
+		_linkRepo.DeleteLink(link);
+		return await _linkRepo.SaveChangesAsync();
 	}
 
 	public async Task<string> GetLinkAsync(string shortLink, string? password = null)
 	{
 		long id = Encoder.Decode(shortLink);
-		Link? link = await _repo.GetLinkAsync(id);
+		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null || link.Created.AddDays(link.LifeTime) < DateTime.UtcNow)
 			throw new Exception("Link not found");
@@ -71,11 +71,11 @@ public class LinkService : ILinkService
 		}
 
 		link.Clicks++;
-		_repo.UpdateLink(link);
+		_linkRepo.UpdateLink(link);
 		//_ = Task.Run(async () =>
 		//{
 		//	var scope = _repo;
-		await _repo.SaveChangesAsync();
+		await _linkRepo.SaveChangesAsync();
 		//});
 
 		return link.Url;
@@ -84,7 +84,7 @@ public class LinkService : ILinkService
 	public async Task<LinkUpdateDto> GetTemplateAsync(string shortLink)
 	{
 		long id = Encoder.Decode(shortLink);
-		Link? link = await _repo.GetLinkAsync(id);
+		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
 			throw new Exception("Link not found");
@@ -101,7 +101,7 @@ public class LinkService : ILinkService
 		if(!_user.IsAdmin)
 			throw new Exception("Access denied");
 
-		Link? link = await _repo.GetLinkAsync(id);
+		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
 			throw new Exception("Link not found");
@@ -114,7 +114,7 @@ public class LinkService : ILinkService
 	public async Task<LinkGetDto> GetLinkInfoAsync(string shortLink)
 	{
 		long id = Encoder.Decode(shortLink);
-		Link? link = await _repo.GetLinkAsync(id);
+		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
 			throw new Exception("Link not found");
@@ -147,7 +147,7 @@ public class LinkService : ILinkService
 			pageSize = 50;
 
 		int skip = (page - 1) * pageSize;
-		List<Link> links = await _repo.GetLinksAsync(skip, pageSize);
+		List<Link> links = await _linkRepo.GetLinksAsync(skip, pageSize);
 
 		return links.Select(x => (LinkGetFullDto)x).ToList();
 	}
@@ -157,7 +157,7 @@ public class LinkService : ILinkService
 		if(!_user.IsAdmin)
 			throw new Exception("Access denied");
 
-		List<Link> links = await _repo.GetLinksAsync(userId);
+		List<Link> links = await _linkRepo.GetLinksAsync(userId);
 
 		return links.Select(x => (LinkGetFullDto)x).ToList();
 	}
@@ -167,7 +167,7 @@ public class LinkService : ILinkService
 		if(!_user.IsAdmin && userId != _user.Id)
 			throw new Exception("Access denied");
 
-		List<Link> links = await _repo.GetLinksAsync(userId);
+		List<Link> links = await _linkRepo.GetLinksAsync(userId);
 
 		return links.Select(x =>
 		{
@@ -187,7 +187,7 @@ public class LinkService : ILinkService
 	public async Task<bool> UpdateLinkAsync(LinkUpdateDto dto)
 	{
 		long id = Encoder.Decode(dto.ShortLink);
-		Link? link = await _repo.GetLinkAsync(id);
+		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
 			throw new Exception("Link not found");
@@ -205,7 +205,7 @@ public class LinkService : ILinkService
 
 		link.Updated = DateTime.UtcNow;
 
-		_repo.UpdateLink(link);
-		return await _repo.SaveChangesAsync();
+		_linkRepo.UpdateLink(link);
+		return await _linkRepo.SaveChangesAsync();
 	}
 }
