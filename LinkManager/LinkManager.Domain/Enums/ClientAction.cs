@@ -4,5 +4,6 @@ public enum ClientAction
 {
 	LinkCreate = 1,
 	LinkUpdate = 2,
-	LinkInfo = 3,
+	LinkDelete = 3,
+	LinkInfo = 4,
 }
