@@ -2,11 +2,11 @@
 
 namespace PlanManager.Application.Interfaces.Services;
 
-public interface IUserIdentity
+public interface IUserIdentifier
 {
 	public long Id { get; }
 
-	public bool Admin { get; }
+	public bool IsAdmin { get; }
 
 	public Roles Role { get; }
 }

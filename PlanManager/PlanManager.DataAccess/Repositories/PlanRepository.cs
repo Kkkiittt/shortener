@@ -34,7 +34,7 @@ public class PlanRepository : IPlanRepository
 		return true;
 	}
 
-	public async Task<Plan?> GetPlanAsync(int id)
+	public async Task<Plan?> GetPlanAsync(long id)
 	{
 		return await _context.Plans.FindAsync(id);
 	}

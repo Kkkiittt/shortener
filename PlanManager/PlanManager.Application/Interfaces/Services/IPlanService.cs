@@ -11,7 +11,7 @@ public interface IPlanService
 
 	public Task<bool> DeletePlanAsync(int id);
 
-	public Task<Plan> GetPlanAsync(int id);
+	public Task<Plan> GetPlanAsync(long id);
 
 	public Task<List<Plan>> GetPlansAsync();
 
