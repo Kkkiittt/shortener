@@ -4,5 +4,5 @@ namespace PlanManager.Application.Interfaces.Module;
 
 public interface IPlanManagerModule
 {
-	public Task<bool> CheckPlan(PlanCheckDto dto);
+	public Task<bool> CheckPlanAsync(PlanCheckDto dto);
 }

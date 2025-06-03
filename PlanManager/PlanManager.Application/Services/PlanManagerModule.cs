@@ -14,7 +14,7 @@ public class PlanManagerModule : IPlanManagerModule
 		_planService = planService;
 	}
 
-	public async Task<bool> CheckPlan(PlanCheckDto dto)
+	public async Task<bool> CheckPlanAsync(PlanCheckDto dto)
 	{
 		return await _planService.CheckPlanActionAsync(dto);
 	}

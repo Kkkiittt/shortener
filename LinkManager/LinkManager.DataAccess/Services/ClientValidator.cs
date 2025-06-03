@@ -16,10 +16,10 @@ public class ClientValidator : IClientValidator
 		_plan = plan;
 	}
 
-	public bool Validate(ClientCheckDto dto)
+	public async Task<bool> ValidateAsync(ClientCheckDto dto)
 	{
-		PlanAction action = (PlanAction)Enum.Parse(typeof(PlanAction), dto.Action.ToString());
+		PlanAction action = Enum.Parse<PlanAction>(dto.Action.ToString());
 		PlanCheckDto planDto = new PlanCheckDto(dto.PlanId, dto.LinkCount, dto.LinkLifetime, action);
-		return _plan.CheckPlan(planDto);
+		return await _plan.CheckPlanAsync(planDto);
 	}
 }

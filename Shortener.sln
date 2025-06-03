@@ -16,6 +16,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticator.DataAccess", "Authenticator\Authenticator.DataAccess\Authenticator.DataAccess.csproj", "{0903CA91-374F-4A39-ABA7-768F9B219704}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.Api", "LinkManager\LinkManager.Api\LinkManager.Api.csproj", "{4222845C-3AC1-444C-BE66-F5B5E4CE42A1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20495E72-B244-404C-9A9A-53EECF475772} = {20495E72-B244-404C-9A9A-53EECF475772}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.Application", "LinkManager\LinkManager.Application\LinkManager.Application.csproj", "{8F70E1F2-7AC2-493E-947E-AC548EB6677E}"
 EndProject

@@ -10,6 +10,9 @@ using System.Text;
 using LinkManager.Application.Interfaces.Services;
 using LinkManager.Application.Services;
 using LinkManager.Api.Services;
+using LinkManager.DataAccess.Services;
+using PlanManager.Application.Interfaces.Module;
+using PlanManager.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +46,8 @@ builder.Services.AddSwaggerGen(c =>
 	});
 });
 builder.Services.AddScoped<ILinkRepository, LinkRepository>();
+builder.Services.AddScoped<IClientValidator, ClientValidator>();
+builder.Services.AddScoped<IPlanManagerModule, PlanManagerModule>();
 builder.Services.AddScoped<ILinkService, LinkService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();

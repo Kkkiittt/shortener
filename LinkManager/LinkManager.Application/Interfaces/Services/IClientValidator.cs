@@ -5,7 +5,7 @@ namespace LinkManager.Application.Interfaces.Services;
 
 public interface IClientValidator
 {
-	public bool Validate(ClientCheckDto dto);
+	public Task<bool> ValidateAsync(ClientCheckDto dto);
 }
 
 

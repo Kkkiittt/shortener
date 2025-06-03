@@ -3,6 +3,7 @@ using PlanManager.Application.Dtos;
 using PlanManager.Application.Interfaces.Repositories;
 using PlanManager.Application.Interfaces.Services;
 using PlanManager.Domain.Entities;
+using PlanManager.Domain.Enums;
 
 namespace PlanManager.Application.Services;
 
@@ -26,12 +27,20 @@ public class PlanService : IPlanService
 
 		if(!plan.Actions.Contains(dto.Action))
 			throw new Exception("Action unavailable");
+		if(dto.Action == PlanAction.LinkCreate)
+		{
+			if(plan.MaxLinkCount <= dto.UserLinks)
+				throw new Exception("Link limit exceeded");
 
-		if(plan.MaxLinkCount < dto.UserLinks + (dto.Action == Domain.Enums.PlanAction.LinkCreate ? 1 : 0))
-			throw new Exception("Link limit exceeded");
+			if(plan.MaxLinkLifetime < dto.LinkLifetime)
+				throw new Exception("Link lifetime limit exceeded");
+		}
 
-		if(plan.MaxLinkLifetime < dto.LinkLifetime)
-			throw new Exception("Link lifetime limit exceeded");
+		if(dto.Action == PlanAction.LinkUpdate)
+		{
+			if(plan.MaxLinkLifetime < dto.LinkLifetime)
+				throw new Exception("Link lifetime limit exceeded");
+		}
 
 		return true;
 	}

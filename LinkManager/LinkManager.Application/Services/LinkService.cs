@@ -4,24 +4,32 @@ using LinkManager.Application.Helpers;
 using LinkManager.Application.Interfaces.Repositories;
 using LinkManager.Application.Interfaces.Services;
 using LinkManager.Domain.Entities;
+using LinkManager.Domain.Enums;
 
 namespace LinkManager.Application.Services;
 
 public class LinkService : ILinkService
 {
-	//private readonly IClientValidator _validator;
+	private readonly IClientValidator _validator;
 	private readonly ILinkRepository _linkRepo;
 	private readonly IUserIdentifier _user;
 
-	public LinkService(/* IClientValidator validator,*/ ILinkRepository linkRepo, IUserIdentifier userIdentifier)
+	public LinkService(IClientValidator validator, ILinkRepository linkRepo, IUserIdentifier userIdentifier)
 	{
-		//_validator = validator;
+		_validator = validator;
 		_linkRepo = linkRepo;
 		_user = userIdentifier;
 	}
 
 	public async Task<string> CreateLinkAsync(LinkCreateDto dto)
 	{
+		int linkCount = await _linkRepo.GetLinkCountAsync(_user.Id);
+		ClientCheckDto checkDto = new(_user.PlanId, linkCount, dto.Lifetime, ClientAction.LinkCreate);
+
+		var res = await _validator.ValidateAsync(checkDto);
+		if(!res)
+			throw new Exception("Permission denied");
+
 		string? passw = null;
 		if(dto.Password != null)
 			passw = Hasher.Hash(dto.Password);
@@ -40,6 +48,12 @@ public class LinkService : ILinkService
 
 	public async Task<bool> DeleteLinkAsync(string shortLink)
 	{
+		ClientCheckDto checkDto = new(_user.PlanId, 0, 0, ClientAction.LinkDelete);
+
+		var res = await _validator.ValidateAsync(checkDto);
+		if(!res)
+			throw new Exception("Permission denied");
+
 		long id = Encoder.Decode(shortLink);
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
@@ -113,6 +127,12 @@ public class LinkService : ILinkService
 
 	public async Task<LinkGetDto> GetLinkInfoAsync(string shortLink)
 	{
+		ClientCheckDto checkDto = new(_user.PlanId, 0, 0, ClientAction.LinkInfo);
+
+		var res = await _validator.ValidateAsync(checkDto);
+		if(!res)
+			throw new Exception("Permission denied");
+
 		long id = Encoder.Decode(shortLink);
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
@@ -164,6 +184,12 @@ public class LinkService : ILinkService
 
 	public async Task<List<LinkGetDto>> GetLinksInfoByUserAsync(long userId)
 	{
+		ClientCheckDto checkDto = new(_user.PlanId, 0, 0, ClientAction.LinkInfo);
+
+		var res = await _validator.ValidateAsync(checkDto);
+		if(!res)
+			throw new Exception("Permission denied");
+
 		if(!_user.IsAdmin && userId != _user.Id)
 			throw new Exception("Access denied");
 
@@ -186,6 +212,13 @@ public class LinkService : ILinkService
 
 	public async Task<bool> UpdateLinkAsync(LinkUpdateDto dto)
 	{
+		int linkCount = await _linkRepo.GetLinkCountAsync(_user.Id);
+		ClientCheckDto checkDto = new(_user.PlanId, linkCount, dto.Lifetime, ClientAction.LinkUpdate);
+
+		var res = await _validator.ValidateAsync(checkDto);
+		if(!res)
+			throw new Exception("Permission denied");
+
 		long id = Encoder.Decode(dto.ShortLink);
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
