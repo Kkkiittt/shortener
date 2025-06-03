@@ -1,9 +1,8 @@
 ﻿using PlanManager.Application.Dtos;
 using PlanManager.Application.Interfaces.Module;
 using PlanManager.Application.Interfaces.Services;
-using PlanManager.Domain.Entities;
 
-namespace PlanManager.Application.Services;
+namespace PlanManager.Application.Module;
 
 public class PlanManagerModule : IPlanManagerModule
 {

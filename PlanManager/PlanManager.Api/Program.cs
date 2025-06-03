@@ -6,8 +6,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 using PlanManager.Api.Services;
+using PlanManager.Application.Interfaces.Module;
 using PlanManager.Application.Interfaces.Repositories;
 using PlanManager.Application.Interfaces.Services;
+using PlanManager.Application.Module;
 using PlanManager.Application.Services;
 using PlanManager.DataAccess.Contexts;
 using PlanManager.DataAccess.Repositories;
@@ -20,6 +22,7 @@ builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 builder.Services.AddScoped<IPlanService, PlanService>();
+builder.Services.AddScoped<IPlanManagerModule, PlanManagerModule>();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

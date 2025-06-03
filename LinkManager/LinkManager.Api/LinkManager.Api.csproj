@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PlanManager\PlanManager.DataAccess\PlanManager.DataAccess.csproj" />
     <ProjectReference Include="..\LinkManager.Application\LinkManager.Application.csproj" />
     <ProjectReference Include="..\LinkManager.DataAccess\LinkManager.DataAccess.csproj" />
     <ProjectReference Include="..\LinkManager.Domain\LinkManager.Domain.csproj" />

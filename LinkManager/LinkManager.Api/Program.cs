@@ -11,8 +11,7 @@ using LinkManager.Application.Interfaces.Services;
 using LinkManager.Application.Services;
 using LinkManager.Api.Services;
 using LinkManager.DataAccess.Services;
-using PlanManager.Application.Interfaces.Module;
-using PlanManager.Application.Services;
+using PlanManager.DataAccess.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,7 +46,6 @@ builder.Services.AddSwaggerGen(c =>
 });
 builder.Services.AddScoped<ILinkRepository, LinkRepository>();
 builder.Services.AddScoped<IClientValidator, ClientValidator>();
-builder.Services.AddScoped<IPlanManagerModule, PlanManagerModule>();
 builder.Services.AddScoped<ILinkService, LinkService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
@@ -57,7 +55,6 @@ builder.Services.AddDbContext<LinkDbContext>((serv, opt) =>
 	var config = serv.GetRequiredService<IConfiguration>();
 	opt.UseNpgsql(config.GetConnectionString("Database"));
 });
-
 var config = builder.Configuration.GetSection("JWT");
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>

@@ -21,7 +21,7 @@ public class User
 		Created = DateTime.Now;
 		Updated = DateTime.Now;
 		Role = Roles.User;
-		SubscriptionId = 0;
+		SubscriptionId = 1;
 		Balance = 0;
 	}
 }

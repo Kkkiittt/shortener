@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using PlanManager.Domain.Entities;
-using PlanManager.Domain.Enums;
+﻿using PlanManager.Domain.Entities;
 
 namespace PlanManager.Application.Dtos;
 
 public class PlanGetDto
 {
+	public long Id { get; set; }
 	public string Name { get; set; } = string.Empty;
 	public string Description { get; set; } = string.Empty;
 	public List<string> Actions { get; set; } = new();
@@ -25,7 +19,8 @@ public class PlanGetDto
 			Description = plan.Description,
 			Actions = plan.Actions.Select(x => x.ToString()).ToList(),
 			MaxLinkCount = plan.MaxLinkCount,
-			MaxLinkLifetime = plan.MaxLinkLifetime
+			MaxLinkLifetime = plan.MaxLinkLifetime,
+			Id = plan.Id
 		};
 	}
 }
