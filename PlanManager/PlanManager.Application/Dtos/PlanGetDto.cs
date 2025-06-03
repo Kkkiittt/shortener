@@ -13,7 +13,7 @@ public class PlanGetDto
 {
 	public string Name { get; set; } = string.Empty;
 	public string Description { get; set; } = string.Empty;
-	public List<PlanAction> Actions { get; set; } = new();
+	public List<string> Actions { get; set; } = new();
 	public int MaxLinkCount { get; set; }
 	public int MaxLinkLifetime { get; set; }
 
@@ -23,7 +23,7 @@ public class PlanGetDto
 		{
 			Name = plan.Name,
 			Description = plan.Description,
-			Actions = plan.Actions,
+			Actions = plan.Actions.Select(x => x.ToString()).ToList(),
 			MaxLinkCount = plan.MaxLinkCount,
 			MaxLinkLifetime = plan.MaxLinkLifetime
 		};
