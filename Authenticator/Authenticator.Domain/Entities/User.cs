@@ -1,4 +1,4 @@
-﻿using Authenticator.Domain.Enums;
+﻿using Shared.Enums;
 
 namespace Authenticator.Domain.Entities;
 public class User

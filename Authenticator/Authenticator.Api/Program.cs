@@ -1,6 +1,5 @@
 using System.Text;
 
-using Authenticator.Api.Services;
 using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Application.Services;
@@ -12,6 +11,9 @@ using Authenticator.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+
+using Shared.Interfaces;
+using Shared.Services;
 
 
 

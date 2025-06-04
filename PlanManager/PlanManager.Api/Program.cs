@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-using PlanManager.Api.Services;
 using PlanManager.Application.Interfaces.Module;
 using PlanManager.Application.Interfaces.Repositories;
 using PlanManager.Application.Interfaces.Services;
@@ -13,6 +12,9 @@ using PlanManager.Application.Module;
 using PlanManager.Application.Services;
 using PlanManager.DataAccess.Contexts;
 using PlanManager.DataAccess.Repositories;
+
+using Shared.Interfaces;
+using Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

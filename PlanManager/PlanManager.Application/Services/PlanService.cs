@@ -5,6 +5,8 @@ using PlanManager.Application.Interfaces.Services;
 using PlanManager.Domain.Entities;
 using PlanManager.Domain.Enums;
 
+using Shared.Interfaces;
+
 namespace PlanManager.Application.Services;
 
 public class PlanService : IPlanService

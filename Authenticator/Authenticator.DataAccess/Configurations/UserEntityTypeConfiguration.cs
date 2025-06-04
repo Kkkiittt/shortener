@@ -1,11 +1,12 @@
 ﻿using System.Globalization;
 
 using Authenticator.Domain.Entities;
-using Authenticator.Domain.Enums;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
+
+using Shared.Enums;
 
 namespace Authenticator.DataAccess.Configurations;
 

@@ -1,10 +1,14 @@
 ﻿using System.Security.Claims;
 
-using Authenticator.Application.Interfaces.Services;
-using Authenticator.Domain.Enums;
+using Microsoft.AspNetCore.Http;
+
+using Shared.Enums;
+using Shared.Interfaces;
 
 
-namespace Authenticator.Api.Services;
+
+
+namespace Shared.Services;
 
 public class UserIdentifier : IUserIdentifier
 {
@@ -47,7 +51,7 @@ public class UserIdentifier : IUserIdentifier
 		}
 	}
 
-	public bool Admin
+	public bool IsAdmin
 	{
 		get
 		{

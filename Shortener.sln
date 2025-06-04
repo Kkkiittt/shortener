@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.Domain", "LinkM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticator.Domain", "Authenticator\Authenticator.Domain\Authenticator.Domain.csproj", "{418B2846-2FC7-458F-B366-7C651594AF69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shortener.Shared\Shared.csproj", "{B085BD09-A073-41E6-9731-8793DBADC5DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{418B2846-2FC7-458F-B366-7C651594AF69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{418B2846-2FC7-458F-B366-7C651594AF69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{418B2846-2FC7-458F-B366-7C651594AF69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B085BD09-A073-41E6-9731-8793DBADC5DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B085BD09-A073-41E6-9731-8793DBADC5DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B085BD09-A073-41E6-9731-8793DBADC5DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B085BD09-A073-41E6-9731-8793DBADC5DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

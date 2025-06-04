@@ -1,10 +1,14 @@
 ﻿
+using Authenticator.Application.Helpers;
+
 using LinkManager.Application.Dtos;
 using LinkManager.Application.Helpers;
 using LinkManager.Application.Interfaces.Repositories;
 using LinkManager.Application.Interfaces.Services;
 using LinkManager.Domain.Entities;
 using LinkManager.Domain.Enums;
+
+using Shared.Interfaces;
 
 namespace LinkManager.Application.Services;
 
@@ -24,7 +28,7 @@ public class LinkService : ILinkService
 	public async Task<string> CreateLinkAsync(LinkCreateDto dto)
 	{
 		int linkCount = await _linkRepo.GetLinkCountAsync(_user.Id);
-		ClientCheckDto checkDto = new(_user.PlanId, linkCount, dto.Lifetime, ClientAction.LinkCreate);
+		ClientCheckDto checkDto = new(_user.SubscriptionId, linkCount, dto.Lifetime, ClientAction.LinkCreate);
 
 		var res = await _validator.ValidateAsync(checkDto);
 		if(!res)
@@ -48,7 +52,7 @@ public class LinkService : ILinkService
 
 	public async Task<bool> DeleteLinkAsync(string shortLink)
 	{
-		ClientCheckDto checkDto = new(_user.PlanId, 0, 0, ClientAction.LinkDelete);
+		ClientCheckDto checkDto = new(_user.SubscriptionId, 0, 0, ClientAction.LinkDelete);
 
 		var res = await _validator.ValidateAsync(checkDto);
 		if(!res)
@@ -127,7 +131,7 @@ public class LinkService : ILinkService
 
 	public async Task<LinkGetDto> GetLinkInfoAsync(string shortLink)
 	{
-		ClientCheckDto checkDto = new(_user.PlanId, 0, 0, ClientAction.LinkInfo);
+		ClientCheckDto checkDto = new(_user.SubscriptionId, 0, 0, ClientAction.LinkInfo);
 
 		var res = await _validator.ValidateAsync(checkDto);
 		if(!res)
@@ -184,7 +188,7 @@ public class LinkService : ILinkService
 
 	public async Task<List<LinkGetDto>> GetLinksInfoByUserAsync(long userId)
 	{
-		ClientCheckDto checkDto = new(_user.PlanId, 0, 0, ClientAction.LinkInfo);
+		ClientCheckDto checkDto = new(_user.SubscriptionId, 0, 0, ClientAction.LinkInfo);
 
 		var res = await _validator.ValidateAsync(checkDto);
 		if(!res)
@@ -213,7 +217,7 @@ public class LinkService : ILinkService
 	public async Task<bool> UpdateLinkAsync(LinkUpdateDto dto)
 	{
 		int linkCount = await _linkRepo.GetLinkCountAsync(_user.Id);
-		ClientCheckDto checkDto = new(_user.PlanId, linkCount, dto.Lifetime, ClientAction.LinkUpdate);
+		ClientCheckDto checkDto = new(_user.SubscriptionId, linkCount, dto.Lifetime, ClientAction.LinkUpdate);
 
 		var res = await _validator.ValidateAsync(checkDto);
 		if(!res)

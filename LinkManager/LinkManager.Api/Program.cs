@@ -1,17 +1,20 @@
-using Microsoft.EntityFrameworkCore;
-using LinkManager.DataAccess.Contexts;
-using LinkManager.DataAccess.Configurations;
-using LinkManager.Domain.Entities;
-using LinkManager.DataAccess.Repositories;
-using LinkManager.Application.Interfaces.Repositories;
-using Microsoft.OpenApi.Models;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
+using LinkManager.Application.Interfaces.Repositories;
 using LinkManager.Application.Interfaces.Services;
 using LinkManager.Application.Services;
-using LinkManager.Api.Services;
+using LinkManager.DataAccess.Configurations;
+using LinkManager.DataAccess.Contexts;
+using LinkManager.DataAccess.Repositories;
 using LinkManager.DataAccess.Services;
-using PlanManager.DataAccess.Services;
+using LinkManager.Domain.Entities;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
+using Shared.Interfaces;
+using Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

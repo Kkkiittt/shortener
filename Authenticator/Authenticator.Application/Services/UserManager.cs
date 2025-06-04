@@ -4,7 +4,9 @@ using Authenticator.Application.Helpers;
 using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Domain.Entities;
-using Authenticator.Domain.Enums;
+
+using Shared.Enums;
+using Shared.Interfaces;
 
 
 namespace Authenticator.Application.Services;
@@ -53,7 +55,7 @@ public class UserManager : IUserManager
 	public async Task<bool> DeleteAsync(long id)
 	{
 
-		if(_identity.Id != id && !_identity.Admin)
+		if(_identity.Id != id && !_identity.IsAdmin)
 			throw new Exception("Access denied");
 
 		User? user = await _repo.GetUserAsync(id);
@@ -70,7 +72,7 @@ public class UserManager : IUserManager
 
 	public async Task<UserGetDto> GetUserAsync(long id)
 	{
-		if(_identity.Id != id && !_identity.Admin)
+		if(_identity.Id != id && !_identity.IsAdmin)
 			throw new Exception("Access denied");
 
 		User? user = await _repo.GetUserAsync(id);
@@ -83,7 +85,7 @@ public class UserManager : IUserManager
 
 	public async Task<List<UserGetDto>> GetUsersAsync(int page, int pageSize)
 	{
-		if(!_identity.Admin)
+		if(!_identity.IsAdmin)
 			throw new Exception("Access denied");
 
 		if(pageSize < 1 || page < 1)
