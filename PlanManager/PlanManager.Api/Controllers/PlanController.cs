@@ -17,7 +17,7 @@ public class PlanController : ControllerBase
 		_planService = planService;
 	}
 
-	[HttpGet("check")]
+	[HttpPost("check")]
 	[AllowAnonymous]
 	public async Task<IActionResult> CheckPlan(PlanCheckDto dto)
 	{
