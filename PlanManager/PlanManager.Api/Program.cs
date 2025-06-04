@@ -26,47 +26,9 @@ builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 builder.Services.AddScoped<IPlanService, PlanService>();
 builder.Services.AddScoped<IPlanManagerModule, PlanManagerModule>();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Configuration.AddJsonFile("appsettings.secure.json");
-builder.Services.AddSwaggerGen(c =>
-{
-	c.AddSecurityDefinition("Bearer", new()
-	{
-		Name = "Authorization",
-		Type = SecuritySchemeType.ApiKey,
-		Scheme = "Bearer",
-		BearerFormat = "JWT",
-		In = ParameterLocation.Header,
-		Description = "JWT Authorization header using the Bearer scheme."
-	});
-	c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-		{
-			new OpenApiSecurityScheme {
-				Reference = new OpenApiReference {
-					Type = ReferenceType.SecurityScheme,
-					Id = "Bearer"
-				},
-			},
-			Array.Empty<string>()
-		}
-	});
-});
-var config = builder.Configuration.GetSection("JWT");
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication("Bearer").AddJwtBearer(opt =>
-{
-	opt.TokenValidationParameters = new()
-	{
-		ValidAudience = config["Audience"],
-		ValidIssuer = config["Issuer"],
-		IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Secret"] ?? throw new Exception("Secret not found"))),
-		ValidateAudience = true,
-		ValidateIssuer = true,
-		ValidateIssuerSigningKey = true,
-		ValidateLifetime = true,
-	};
-});
+builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
 builder.Services.AddDbContext<PlanDbContext>(opt =>
 {
 	var connection = builder.Configuration.GetConnectionString("Database");
@@ -83,7 +45,7 @@ if(app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 
