@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 
 namespace Shared.Services;
 
-public static class AuthenticationExtensions
+public static class JwtAuthenticationExtensions
 {
 	public static IServiceCollection AddJwtBearerAuthentication(this IServiceCollection services, IConfiguration config, bool swaggerAuth = false)
 	{
