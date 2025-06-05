@@ -87,7 +87,7 @@ public class LinkController : ControllerBase
 
 	[HttpGet("{shortLink}")]
 	[AllowAnonymous]
-	public async Task<IActionResult> GetLinkAsync(string shortLink, string? password = null)
+	public async Task<IActionResult> GetLinkAsync(string shortLink, string? password = null, bool redirect = true)
 	{
 		try
 		{
@@ -96,11 +96,14 @@ public class LinkController : ControllerBase
 			{
 				return BadRequest();
 			}
-			return Redirect(res);
+			if(redirect)
+				return Redirect(res);
+			else
+				return Ok(res);
 		}
 		catch(Exception ex)
 		{
-			return BadRequest(ex.Message+ex.StackTrace+" "+shortLink);
+			return BadRequest(ex.Message + ex.StackTrace + " " + shortLink);
 		}
 	}
 
