@@ -1,4 +1,4 @@
-﻿using PlanManager.Domain.Enums;
+﻿using Shared.Enums;
 
 namespace PlanManager.Domain.Entities;
 
@@ -9,16 +9,20 @@ public class Plan
 	public string Description { get; set; }
 	public DateTime Created { get; set; }
 	public DateTime Updated { get; set; }
-	public List<PlanAction> Actions { get; set; } = new();
+	public List<ClientAction> Actions { get; set; } = new();
 	public int MaxLinkLifetime { get; set; }
 	public int MaxLinkCount { get; set; }
+	public double Cost { get; set; }
+	public TimeSpan SubscriptionPeriod { get; set; }
 
-	public Plan(string name, int maxLinkLifetime, int maxLinkCount, List<PlanAction> actions, string? description = null)
+	public Plan(string name, int maxLinkLifetime, int maxLinkCount, List<ClientAction> actions, string description, double cost, TimeSpan subscriptionPeriod)
 	{
 		Name = name;
 		MaxLinkLifetime = maxLinkLifetime;
 		MaxLinkCount = maxLinkCount;
 		Actions = actions;
-		Description = description ?? "";
+		Description = description;
+		Cost = cost;
+		SubscriptionPeriod = subscriptionPeriod;
 	}
 }

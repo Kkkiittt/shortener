@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PlanManager.DataAccess.Contexts;
@@ -11,9 +12,11 @@ using PlanManager.DataAccess.Contexts;
 namespace PlanManager.DataAccess.Migrations
 {
     [DbContext(typeof(PlanDbContext))]
-    partial class PlanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250605074355_PlanCost")]
+    partial class PlanCost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,7 @@ namespace PlanManager.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Plans", (string)null);
+                    b.ToTable("Plans");
 
                     b.HasData(
                         new
@@ -75,19 +78,6 @@ namespace PlanManager.DataAccess.Migrations
                             MaxLinkCount = 3,
                             MaxLinkLifetime = 7,
                             Name = "Free",
-                            SubscriptionPeriod = new TimeSpan(9223372036854775807),
-                            Updated = new DateTime(2022, 5, 12, 7, 12, 12, 123, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Actions = new[] { 1, 3, 4, 2 },
-                            Cost = 1.7976931348623157E+308,
-                            Created = new DateTime(2022, 5, 12, 7, 12, 12, 123, DateTimeKind.Utc),
-                            Description = "Admin tier",
-                            MaxLinkCount = 2147483647,
-                            MaxLinkLifetime = 2147483647,
-                            Name = "Admin",
                             SubscriptionPeriod = new TimeSpan(9223372036854775807),
                             Updated = new DateTime(2022, 5, 12, 7, 12, 12, 123, DateTimeKind.Utc)
                         });

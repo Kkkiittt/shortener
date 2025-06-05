@@ -1,7 +1,6 @@
 ﻿using Authenticator.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Authenticator.DataAccess.Contexts;
 

@@ -1,4 +1,4 @@
-﻿namespace LinkManager.Domain.Enums;
+﻿namespace Shared.Enums;
 
 public enum ClientAction
 {

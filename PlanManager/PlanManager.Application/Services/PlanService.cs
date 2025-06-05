@@ -3,8 +3,8 @@ using PlanManager.Application.Dtos;
 using PlanManager.Application.Interfaces.Repositories;
 using PlanManager.Application.Interfaces.Services;
 using PlanManager.Domain.Entities;
-using PlanManager.Domain.Enums;
 
+using Shared.Enums;
 using Shared.Interfaces;
 
 namespace PlanManager.Application.Services;
@@ -29,7 +29,7 @@ public class PlanService : IPlanService
 
 		if(!plan.Actions.Contains(dto.Action))
 			throw new Exception("Action unavailable");
-		if(dto.Action == PlanAction.LinkCreate)
+		if(dto.Action == ClientAction.LinkCreate)
 		{
 			if(plan.MaxLinkCount <= dto.UserLinks)
 				throw new Exception("Link limit exceeded");
@@ -38,7 +38,7 @@ public class PlanService : IPlanService
 				throw new Exception("Link lifetime limit exceeded");
 		}
 
-		if(dto.Action == PlanAction.LinkUpdate)
+		if(dto.Action == ClientAction.LinkUpdate)
 		{
 			if(plan.MaxLinkLifetime < dto.LinkLifetime)
 				throw new Exception("Link lifetime limit exceeded");
@@ -52,7 +52,7 @@ public class PlanService : IPlanService
 		if(!_user.IsAdmin)
 			throw new Exception("Access denied");
 
-		Plan plan = new Plan(dto.Name, dto.MaxLinkLifetime, dto.MaxLinkCount, dto.Actions, dto.Description)
+		Plan plan = new Plan(dto.Name, dto.MaxLinkLifetime, dto.MaxLinkCount, dto.Actions, dto.Description ?? "", dto.Cost, dto.SubscriptionPeriod ?? TimeSpan.MaxValue)
 		{
 			Created = DateTime.UtcNow,
 		};
@@ -117,6 +117,8 @@ public class PlanService : IPlanService
 		plan.MaxLinkLifetime = dto.MaxLinkLifetime;
 		plan.Name = dto.Name;
 		plan.Updated = DateTime.UtcNow;
+		plan.Cost = dto.Cost;
+		plan.SubscriptionPeriod = dto.SubscriptionPeriod ?? TimeSpan.MaxValue;
 
 		_planRepo.UpdatePlan(plan);
 		return await _planRepo.SaveChangesAsync();

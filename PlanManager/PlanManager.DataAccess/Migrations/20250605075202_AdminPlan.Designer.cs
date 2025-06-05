@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PlanManager.DataAccess.Contexts;
@@ -11,9 +12,11 @@ using PlanManager.DataAccess.Contexts;
 namespace PlanManager.DataAccess.Migrations
 {
     [DbContext(typeof(PlanDbContext))]
-    partial class PlanDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250605075202_AdminPlan")]
+    partial class AdminPlan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,7 +65,7 @@ namespace PlanManager.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Plans", (string)null);
+                    b.ToTable("Plans");
 
                     b.HasData(
                         new

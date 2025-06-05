@@ -10,6 +10,8 @@ public class PlanGetDto
 	public List<string> Actions { get; set; } = new();
 	public int MaxLinkCount { get; set; }
 	public int MaxLinkLifetime { get; set; }
+	public double Cost { get; set; }
+	public TimeSpan SubscriptionPeriod { get; set; }
 
 	public static explicit operator PlanGetDto(Plan plan)
 	{
@@ -20,7 +22,9 @@ public class PlanGetDto
 			Actions = plan.Actions.Select(x => x.ToString()).ToList(),
 			MaxLinkCount = plan.MaxLinkCount,
 			MaxLinkLifetime = plan.MaxLinkLifetime,
-			Id = plan.Id
+			Id = plan.Id,
+			Cost = plan.Cost,
+			SubscriptionPeriod = plan.SubscriptionPeriod
 		};
 	}
 }

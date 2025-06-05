@@ -3,7 +3,8 @@ using LinkManager.Application.Interfaces.Services;
 
 using PlanManager.Application.Dtos;
 using PlanManager.Application.Interfaces.Module;
-using PlanManager.Domain.Enums;
+
+using Shared.Enums;
 
 namespace LinkManager.DataAccess.Services;
 
@@ -18,8 +19,7 @@ public class ClientValidator : IClientValidator
 
 	public async Task<bool> ValidateAsync(ClientCheckDto dto)
 	{
-		PlanAction action = Enum.Parse<PlanAction>(dto.Action.ToString());
-		PlanCheckDto planDto = new PlanCheckDto(dto.PlanId, dto.LinkCount, dto.LinkLifetime, action);
+		PlanCheckDto planDto = new PlanCheckDto(dto.PlanId, dto.LinkCount, dto.LinkLifetime, dto.Action);
 		return await _plan.CheckPlanAsync(planDto);
 	}
 }

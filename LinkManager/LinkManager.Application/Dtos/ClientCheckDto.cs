@@ -1,4 +1,4 @@
-﻿using LinkManager.Domain.Enums;
+﻿using Shared.Enums;
 
 namespace LinkManager.Application.Dtos;
 

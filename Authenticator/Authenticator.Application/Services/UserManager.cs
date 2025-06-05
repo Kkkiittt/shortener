@@ -123,7 +123,10 @@ public class UserManager : IUserManager
 			throw new Exception("User not found");
 
 		if(user.Role != Roles.Owner)
+		{
 			user.Role = Roles.Admin;
+			user.SubscriptionId = 2;
+		}
 
 		_repo.UpdateUser(user);
 		return await _repo.SaveChangesAsync();
@@ -140,7 +143,10 @@ public class UserManager : IUserManager
 			throw new Exception("User not found");
 
 		if(user.Role != Roles.Owner)
+		{
 			user.Role = Roles.User;
+			user.SubscriptionId = 1;
+		}
 
 		_repo.UpdateUser(user);
 		return await _repo.SaveChangesAsync();

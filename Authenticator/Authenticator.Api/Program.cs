@@ -16,13 +16,16 @@ using Shared.Services;
 var builder = WebApplication.CreateBuilder();
 // Add services to the container.
 builder.Configuration.AddJsonFile("appsettings.secure.json");
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddScoped<IEntityTypeConfiguration<User>, UserEntityTypeConfiguration>();
 builder.Services.AddDbContext<UserDbContext>((service, options) =>
 {
@@ -30,6 +33,7 @@ builder.Services.AddDbContext<UserDbContext>((service, options) =>
 	var connect = config.GetConnectionString("Database");
 	options.UseNpgsql(connect);
 });
+
 builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
 var app = builder.Build();
 

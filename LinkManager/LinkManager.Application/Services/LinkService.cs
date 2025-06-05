@@ -6,8 +6,8 @@ using LinkManager.Application.Helpers;
 using LinkManager.Application.Interfaces.Repositories;
 using LinkManager.Application.Interfaces.Services;
 using LinkManager.Domain.Entities;
-using LinkManager.Domain.Enums;
 
+using Shared.Enums;
 using Shared.Interfaces;
 
 namespace LinkManager.Application.Services;
