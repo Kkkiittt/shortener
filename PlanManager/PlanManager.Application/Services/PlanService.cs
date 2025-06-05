@@ -29,6 +29,7 @@ public class PlanService : IPlanService
 
 		if(!plan.Actions.Contains(dto.Action))
 			throw new Exception("Action unavailable");
+
 		if(dto.Action == ClientAction.LinkCreate)
 		{
 			if(plan.MaxLinkCount <= dto.UserLinks)
@@ -118,7 +119,7 @@ public class PlanService : IPlanService
 		plan.Name = dto.Name;
 		plan.Updated = DateTime.UtcNow;
 		plan.Cost = dto.Cost;
-		plan.SubscriptionPeriod = dto.SubscriptionPeriod ?? TimeSpan.MaxValue;
+		plan.SubscriptionPeriod = dto.SubscriptionPeriod ?? TimeSpan.MaxValue;//so if no subscription period, then payment is one-time
 
 		_planRepo.UpdatePlan(plan);
 		return await _planRepo.SaveChangesAsync();

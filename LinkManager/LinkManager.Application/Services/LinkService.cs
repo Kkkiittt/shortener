@@ -77,9 +77,9 @@ public class LinkService : ILinkService
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null || link.Created.AddDays(link.LifeTime) < DateTime.UtcNow)
-			throw new Exception("Link not found");
+			throw new Exception("Link not found");//if link expired, say that it is not existing
 
-		if(link.PasswordHash != null)
+		if(link.PasswordHash != null)//if password is not null only then check it
 		{
 			if(password == null)
 				throw new Exception("Password required");
@@ -168,7 +168,7 @@ public class LinkService : ILinkService
 			throw new Exception("Invalid parameters");
 
 		if(pageSize > 50)
-			pageSize = 50;
+			pageSize = 50;//so too much data can not be retrieved
 
 		int skip = (page - 1) * pageSize;
 		List<Link> links = await _linkRepo.GetLinksAsync(skip, pageSize);
@@ -235,9 +235,9 @@ public class LinkService : ILinkService
 		link.Url = dto.LongLink;
 		link.LifeTime = dto.Lifetime;
 
-		if(dto.Password == null)
+		if(dto.Password == null)//if password is null set link passwordless
 			link.PasswordHash = null;
-		else if(dto.Password != "")
+		else if(dto.Password != "")//if password remained "" as given in template, do not change anything
 			link.PasswordHash = Hasher.Hash(dto.Password);
 
 		link.Updated = DateTime.UtcNow;

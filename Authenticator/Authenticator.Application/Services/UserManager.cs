@@ -27,7 +27,7 @@ public class UserManager : IUserManager
 	public async Task<bool> CreateAsync(UserCreateDto userDto)
 	{
 		if(await _repo.AnyUserAsync(userDto.Email))
-			throw new Exception("User already exists");
+			throw new Exception("Email already exists");
 
 		User user = new(userDto.Email, Hasher.Hash(userDto.Password), userDto.Name)
 		{

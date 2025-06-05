@@ -19,7 +19,7 @@ public class AuthController : ControllerBase
 	}
 
 	[HttpPatch("promote/{id}")]
-	[Authorize(Roles = "Admin, Owner")]
+	[Authorize(Roles = "Owner")]
 	public async Task<IActionResult> PromoteAsync(long id)
 	{
 		try
@@ -39,7 +39,7 @@ public class AuthController : ControllerBase
 	}
 
 	[HttpPatch("demote/{id}")]
-	[Authorize(Roles = "Admin, Owner")]
+	[Authorize(Roles = "Owner")]
 	public async Task<IActionResult> DemoteAsync(long id)
 	{
 		try
