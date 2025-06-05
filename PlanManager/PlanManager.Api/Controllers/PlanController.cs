@@ -17,22 +17,22 @@ public class PlanController : ControllerBase
 		_planService = planService;
 	}
 
-	[HttpPost("check")]
-	[AllowAnonymous]
-	public async Task<IActionResult> CheckPlan(PlanCheckDto dto)
-	{
-		try
-		{
-			var res = await _planService.CheckPlanActionAsync(dto);
-			if(res)
-				return Ok();
-			return BadRequest();
-		}
-		catch(Exception ex)
-		{
-			return BadRequest(ex.Message);
-		}
-	}
+	//[HttpPost("check")]
+	//[AllowAnonymous]
+	//public async Task<IActionResult> CheckPlan(PlanCheckDto dto)
+	//{
+	//	try
+	//	{
+	//		var res = await _planService.CheckPlanActionAsync(dto);
+	//		if(res)
+	//			return Ok();
+	//		return BadRequest();
+	//	}
+	//	catch(Exception ex)
+	//	{
+	//		return BadRequest(ex.Message);
+	//	}
+	//}
 
 	[HttpPost]
 	[Authorize(Roles = "Admin, Owner")]
