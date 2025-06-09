@@ -1,9 +1,4 @@
-
-using System.Text;
-
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 
 using PlanManager.Application.Interfaces.Module;
 using PlanManager.Application.Interfaces.Repositories;
@@ -19,19 +14,19 @@ using Shared.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Configuration.AddJsonFile("appsettings.secure.json");
+builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
+
 builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 builder.Services.AddScoped<IPlanService, PlanService>();
 builder.Services.AddScoped<IPlanManagerModule, PlanManagerModule>();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
-builder.Services.AddEndpointsApiExplorer();
-builder.Configuration.AddJsonFile("appsettings.secure.json");
-builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
 builder.Services.AddDbContext<PlanDbContext>(opt =>
 {
-	var connection = builder.Configuration.GetConnectionString("Database");
+	var connection = builder.Configuration.GetConnectionString("PlanDb");
 	opt.UseNpgsql(connection);
 });
 

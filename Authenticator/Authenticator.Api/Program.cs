@@ -20,21 +20,20 @@ builder.Configuration.AddJsonFile("appsettings.secure.json");
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
 
 builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
 builder.Services.AddScoped<IEntityTypeConfiguration<User>, UserEntityTypeConfiguration>();
 builder.Services.AddDbContext<UserDbContext>((service, options) =>
 {
 	var config = service.GetRequiredService<IConfiguration>();
-	var connect = config.GetConnectionString("Database");
+	var connect = config.GetConnectionString("UserDb");
 	options.UseNpgsql(connect);
 });
 
-builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

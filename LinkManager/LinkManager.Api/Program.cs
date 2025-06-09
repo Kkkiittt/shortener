@@ -22,6 +22,8 @@ builder.Services.AddControllers();
 builder.Configuration.AddJsonFile("appsettings.secure.json");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
+
 builder.Services.AddScoped<ILinkRepository, LinkRepository>();
 builder.Services.AddScoped<IClientValidator, ClientValidator>();
 builder.Services.AddScoped<ILinkService, LinkService>();
@@ -30,9 +32,9 @@ builder.Services.AddScoped<IEntityTypeConfiguration<Link>, LinkEntityTypeConfigu
 builder.Services.AddDbContext<LinkDbContext>((serv, opt) =>
 {
 	var config = serv.GetRequiredService<IConfiguration>();
-	opt.UseNpgsql(config.GetConnectionString("Database"));
+	opt.UseNpgsql(config.GetConnectionString("LinkDb"));
 });
-builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
+
 builder.Services.AddPlanManagerModule(builder.Configuration);
 
 var app = builder.Build();
