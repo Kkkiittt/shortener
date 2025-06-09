@@ -1,10 +1,13 @@
 ﻿using LinkManager.Domain.Entities;
 
+using Shared.Helpers;
+
 namespace LinkManager.Application.Dtos;
 
 public class LinkGetFullDto
 {
 	public long Id { get; set; }
+	public string ShortLink { get; set; } = string.Empty;
 	public long UserId { get; set; }
 	public string Url { get; set; } = string.Empty;
 	public DateTime Created { get; set; }
@@ -18,6 +21,7 @@ public class LinkGetFullDto
 		return new LinkGetFullDto
 		{
 			Id = link.Id,
+			ShortLink = Encoder.Encode(link.Id),
 			UserId = link.UserId,
 			Url = link.Url,
 			Created = link.Created,
