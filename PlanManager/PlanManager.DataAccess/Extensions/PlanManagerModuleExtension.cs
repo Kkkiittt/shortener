@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 using PlanManager.Application.Interfaces.Module;
 using PlanManager.Application.Interfaces.Repositories;
@@ -8,7 +10,7 @@ using PlanManager.Application.Services;
 using PlanManager.DataAccess.Contexts;
 using PlanManager.DataAccess.Repositories;
 
-namespace PlanManager.Api.Services;
+namespace PlanManager.DataAccess.Extensions;
 
 public static class PlanManagerModuleExtension
 {

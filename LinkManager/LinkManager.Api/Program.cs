@@ -1,6 +1,6 @@
-using LinkManager.Api.Services;
+using LinkManager.DataAccess.Extensions;
 
-using PlanManager.Api.Services;
+using PlanManager.DataAccess.Extensions;
 
 using Shared.Interfaces;
 using Shared.Services;

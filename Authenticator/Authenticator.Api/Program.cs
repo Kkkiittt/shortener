@@ -1,4 +1,4 @@
-using Authenticator.Api.Services;
+using Authenticator.DataAccess.Extensions;
 
 using Shared.Interfaces;
 using Shared.Services;

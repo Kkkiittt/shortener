@@ -1,10 +1,8 @@
+using Authenticator.DataAccess.Extensions;
 
+using LinkManager.DataAccess.Extensions;
 
-using Authenticator.Api.Services;
-
-using LinkManager.Api.Services;
-
-using PlanManager.Api.Services;
+using PlanManager.DataAccess.Extensions;
 
 using Shared.Interfaces;
 using Shared.Services;

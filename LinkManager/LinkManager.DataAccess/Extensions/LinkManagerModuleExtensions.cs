@@ -8,11 +8,10 @@ using LinkManager.DataAccess.Services;
 using LinkManager.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-using Shared.Interfaces;
-using Shared.Services;
-
-namespace LinkManager.Api.Services;
+namespace LinkManager.DataAccess.Extensions;
 
 public static class LinkManagerModuleExtensions
 {

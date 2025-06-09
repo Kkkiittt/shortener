@@ -1,13 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-
-using PlanManager.Api.Services;
-using PlanManager.Application.Interfaces.Module;
-using PlanManager.Application.Interfaces.Repositories;
-using PlanManager.Application.Interfaces.Services;
-using PlanManager.Application.Module;
-using PlanManager.Application.Services;
-using PlanManager.DataAccess.Contexts;
-using PlanManager.DataAccess.Repositories;
+using PlanManager.DataAccess.Extensions;
 
 using Shared.Interfaces;
 using Shared.Services;

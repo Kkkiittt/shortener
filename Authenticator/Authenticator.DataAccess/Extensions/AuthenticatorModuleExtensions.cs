@@ -7,8 +7,10 @@ using Authenticator.DataAccess.Repositories;
 using Authenticator.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Authenticator.Api.Services;
+namespace Authenticator.DataAccess.Extensions;
 
 public static class AuthenticatorModuleExtensions
 {
