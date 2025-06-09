@@ -26,6 +26,7 @@ public static class LinkManagerModuleExtensions
 		{
 			opt.UseNpgsql(config.GetConnectionString("LinkDb"));
 		});
+		services.AddMvc().AddApplicationPart(typeof(LinkManagerModuleExtensions).Assembly).AddControllersAsServices();
 		return services;
 	}
 }

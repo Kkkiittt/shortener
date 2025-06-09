@@ -404,4 +404,5 @@ FodyWeavers.xsd
 Authenticator/Authenticator.Api/appsettings.secure.json
 LinkManager/LinkManager.Api/appsettings.secure.json
 PlanManager/PlanManager.Api/appsettings.secure.json
+Shortener.Api/appsettings.secure.json
 some.py

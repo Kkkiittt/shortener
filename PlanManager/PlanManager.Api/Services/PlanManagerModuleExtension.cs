@@ -21,6 +21,7 @@ public static class PlanManagerModuleExtension
 		services.AddScoped<IPlanRepository, PlanRepository>();
 		services.AddScoped<IPlanService, PlanService>();
 		services.AddScoped<IPlanManagerModule, PlanManagerModule>();
+		services.AddMvc().AddApplicationPart(typeof(PlanManagerModuleExtension).Assembly).AddControllersAsServices();
 		return services;
 	}
 }

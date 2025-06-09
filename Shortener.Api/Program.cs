@@ -1,11 +1,16 @@
+
+
 using Authenticator.Api.Services;
+
+using LinkManager.Api.Services;
+
+using PlanManager.Api.Services;
 
 using Shared.Interfaces;
 using Shared.Services;
 
+var builder = WebApplication.CreateBuilder(args);
 
-
-var builder = WebApplication.CreateBuilder();
 // Add services to the container.
 builder.Configuration.AddJsonFile("appsettings.secure.json");
 
@@ -15,6 +20,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
 
+builder.Services.AddPlanManagerModule(builder.Configuration);
+builder.Services.AddLinkManagerModule(builder.Configuration);
 builder.Services.AddAuthenticatorModule(builder.Configuration);
 
 var app = builder.Build();
@@ -27,7 +34,7 @@ if(app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
+
 app.UseAuthorization();
 
 

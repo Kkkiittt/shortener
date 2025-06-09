@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
+using PlanManager.Api.Services;
 using PlanManager.Application.Interfaces.Module;
 using PlanManager.Application.Interfaces.Repositories;
 using PlanManager.Application.Interfaces.Services;
@@ -20,15 +21,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Configuration.AddJsonFile("appsettings.secure.json");
 builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
 
-builder.Services.AddScoped<IPlanRepository, PlanRepository>();
-builder.Services.AddScoped<IPlanService, PlanService>();
-builder.Services.AddScoped<IPlanManagerModule, PlanManagerModule>();
+builder.Services.AddPlanManagerModule(builder.Configuration);
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
-builder.Services.AddDbContext<PlanDbContext>(opt =>
-{
-	var connection = builder.Configuration.GetConnectionString("PlanDb");
-	opt.UseNpgsql(connection);
-});
 
 var app = builder.Build();
 

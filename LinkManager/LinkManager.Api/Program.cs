@@ -1,13 +1,4 @@
-using LinkManager.Application.Interfaces.Repositories;
-using LinkManager.Application.Interfaces.Services;
-using LinkManager.Application.Services;
-using LinkManager.DataAccess.Configurations;
-using LinkManager.DataAccess.Contexts;
-using LinkManager.DataAccess.Repositories;
-using LinkManager.DataAccess.Services;
-using LinkManager.Domain.Entities;
-
-using Microsoft.EntityFrameworkCore;
+using LinkManager.Api.Services;
 
 using PlanManager.Api.Services;
 
@@ -18,23 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 builder.Configuration.AddJsonFile("appsettings.secure.json");
+
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
-
-builder.Services.AddScoped<ILinkRepository, LinkRepository>();
-builder.Services.AddScoped<IClientValidator, ClientValidator>();
-builder.Services.AddScoped<ILinkService, LinkService>();
 builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
-builder.Services.AddScoped<IEntityTypeConfiguration<Link>, LinkEntityTypeConfiguration>();
-builder.Services.AddDbContext<LinkDbContext>((serv, opt) =>
-{
-	var config = serv.GetRequiredService<IConfiguration>();
-	opt.UseNpgsql(config.GetConnectionString("LinkDb"));
-});
 
+builder.Services.AddLinkManagerModule(builder.Configuration);
 builder.Services.AddPlanManagerModule(builder.Configuration);
 
 var app = builder.Build();

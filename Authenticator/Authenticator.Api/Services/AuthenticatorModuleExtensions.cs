@@ -8,9 +8,6 @@ using Authenticator.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
-using Shared.Interfaces;
-using Shared.Services;
-
 namespace Authenticator.Api.Services;
 
 public static class AuthenticatorModuleExtensions
@@ -26,6 +23,7 @@ public static class AuthenticatorModuleExtensions
 			var connect = config.GetConnectionString("UserDb");
 			options.UseNpgsql(connect);
 		});
+		services.AddMvc().AddApplicationPart(typeof(AuthenticatorModuleExtensions).Assembly).AddControllersAsServices();
 		return services;
 	}
 }

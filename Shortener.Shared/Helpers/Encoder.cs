@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace LinkManager.Application.Helpers;
+﻿namespace Shared.Helpers;
 
 public static class Encoder
 {

@@ -1,11 +1,11 @@
 ﻿
 using Authenticator.Application.Dtos;
-using Authenticator.Application.Helpers;
 using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Domain.Entities;
 
 using Shared.Enums;
+using Shared.Helpers;
 using Shared.Interfaces;
 
 

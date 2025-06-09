@@ -1,4 +1,4 @@
-﻿namespace Authenticator.Application.Helpers;
+﻿namespace Shared.Helpers;
 
 public static class Hasher
 {
