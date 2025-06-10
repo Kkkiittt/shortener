@@ -13,7 +13,7 @@ builder.Configuration.AddJsonFile("appsettings.secure.json");
 builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
 
 builder.Services.AddPlanManagerModule(builder.Configuration);
-builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
+builder.Services.AddScoped<IUserIdentifier, HttpUserIdentifier>();
 
 var app = builder.Build();
 

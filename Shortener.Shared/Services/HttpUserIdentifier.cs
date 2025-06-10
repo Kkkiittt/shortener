@@ -10,11 +10,11 @@ using Shortener.Shared.Interfaces;
 
 namespace Shortener.Shared.Services;
 
-public class UserIdentifier : IUserIdentifier
+public class HttpUserIdentifier : IUserIdentifier
 {
 	private readonly IHttpContextAccessor _accessor;
 
-	public UserIdentifier(IHttpContextAccessor accessor)
+	public HttpUserIdentifier(IHttpContextAccessor accessor)
 	{
 		_accessor = accessor;
 	}

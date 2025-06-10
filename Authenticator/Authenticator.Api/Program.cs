@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);
-builder.Services.AddScoped<IUserIdentifier, UserIdentifier>();
+builder.Services.AddScoped<IUserIdentifier, HttpUserIdentifier>();
 
 builder.Services.AddAuthenticatorModule(builder.Configuration);
 
