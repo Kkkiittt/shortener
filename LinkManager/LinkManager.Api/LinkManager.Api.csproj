@@ -15,10 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\PlanManager\PlanManager.Api\PlanManager.Api.csproj" />
+    <ProjectReference Include="..\..\PlanManager\PlanManager.Infrastructure\PlanManager.Infrastructure.csproj" />
     <ProjectReference Include="..\LinkManager.Application\LinkManager.Application.csproj" />
-    <ProjectReference Include="..\LinkManager.DataAccess\LinkManager.DataAccess.csproj" />
-    <ProjectReference Include="..\LinkManager.Domain\LinkManager.Domain.csproj" />
+    <ProjectReference Include="..\LinkManager.Infrastructure\LinkManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

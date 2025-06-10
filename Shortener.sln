@@ -10,10 +10,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LinkManager", "LinkManager", "{A250A234-D185-43E0-9B20-B4FB7705C7B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticator.Api", "Authenticator\Authenticator.Api\Authenticator.Api.csproj", "{4D45038F-A2ED-455A-8DC0-4F40B809CAE0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0903CA91-374F-4A39-ABA7-768F9B219704} = {0903CA91-374F-4A39-ABA7-768F9B219704}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticator.Application", "Authenticator\Authenticator.Application\Authenticator.Application.csproj", "{CEBEF515-398F-4EC0-8C41-8B9123D2940F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticator.DataAccess", "Authenticator\Authenticator.DataAccess\Authenticator.DataAccess.csproj", "{0903CA91-374F-4A39-ABA7-768F9B219704}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticator.Infrastructure", "Authenticator\Authenticator.Infrastructure\Authenticator.Infrastructure.csproj", "{0903CA91-374F-4A39-ABA7-768F9B219704}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.Api", "LinkManager\LinkManager.Api\LinkManager.Api.csproj", "{4222845C-3AC1-444C-BE66-F5B5E4CE42A1}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -22,13 +25,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.Api", "LinkMana
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.Application", "LinkManager\LinkManager.Application\LinkManager.Application.csproj", "{8F70E1F2-7AC2-493E-947E-AC548EB6677E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.DataAccess", "LinkManager\LinkManager.DataAccess\LinkManager.DataAccess.csproj", "{1E7AD138-9E94-4449-9CFE-A4DDDD57AA73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.Infrastructure", "LinkManager\LinkManager.Infrastructure\LinkManager.Infrastructure.csproj", "{1E7AD138-9E94-4449-9CFE-A4DDDD57AA73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanManager.Api", "PlanManager\PlanManager.Api\PlanManager.Api.csproj", "{F0C34524-2D14-4457-9684-88041D0B781A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{749D0E90-3671-4514-8E8E-0E98B18C7A73} = {749D0E90-3671-4514-8E8E-0E98B18C7A73}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanManager.Application", "PlanManager\PlanManager.Application\PlanManager.Application.csproj", "{20495E72-B244-404C-9A9A-53EECF475772}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B085BD09-A073-41E6-9731-8793DBADC5DF} = {B085BD09-A073-41E6-9731-8793DBADC5DF}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanManager.DataAccess", "PlanManager\PlanManager.DataAccess\PlanManager.DataAccess.csproj", "{749D0E90-3671-4514-8E8E-0E98B18C7A73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanManager.Infrastructure", "PlanManager\PlanManager.Infrastructure\PlanManager.Infrastructure.csproj", "{749D0E90-3671-4514-8E8E-0E98B18C7A73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanManager.Domain", "PlanManager\PlanManager.Domain\PlanManager.Domain.csproj", "{6002B3E3-9C70-40A7-AE58-93524AE4A56C}"
 EndProject
@@ -36,9 +45,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkManager.Domain", "LinkM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authenticator.Domain", "Authenticator\Authenticator.Domain\Authenticator.Domain.csproj", "{418B2846-2FC7-458F-B366-7C651594AF69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shortener.Shared\Shared.csproj", "{B085BD09-A073-41E6-9731-8793DBADC5DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shortener.Shared", "Shortener.Shared\Shortener.Shared.csproj", "{B085BD09-A073-41E6-9731-8793DBADC5DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shortener.Api", "Shortener.Api\Shortener.Api.csproj", "{DCF12E03-4E0A-4397-8BBA-D866B2651412}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1E7AD138-9E94-4449-9CFE-A4DDDD57AA73} = {1E7AD138-9E94-4449-9CFE-A4DDDD57AA73}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

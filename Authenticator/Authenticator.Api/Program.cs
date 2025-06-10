@@ -1,7 +1,7 @@
-using Authenticator.DataAccess.Extensions;
+using Authenticator.Infrastructure.Extensions;
 
-using Shared.Interfaces;
-using Shared.Services;
+using Shortener.Shared.Interfaces;
+using Shortener.Shared.Services;
 
 
 

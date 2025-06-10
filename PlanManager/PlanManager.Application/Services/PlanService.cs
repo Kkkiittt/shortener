@@ -4,8 +4,8 @@ using PlanManager.Application.Interfaces.Repositories;
 using PlanManager.Application.Interfaces.Services;
 using PlanManager.Domain.Entities;
 
-using Shared.Enums;
-using Shared.Interfaces;
+using Shortener.Shared.Enums;
+using Shortener.Shared.Interfaces;
 
 namespace PlanManager.Application.Services;
 

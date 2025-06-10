@@ -1,6 +1,6 @@
 ﻿using LinkManager.Domain.Entities;
 
-using Shared.Helpers;
+using Shortener.Shared.Helpers;
 
 namespace LinkManager.Application.Dtos;
 

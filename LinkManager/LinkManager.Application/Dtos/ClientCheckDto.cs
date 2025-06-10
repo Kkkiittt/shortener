@@ -1,4 +1,4 @@
-﻿using Shared.Enums;
+﻿using Shortener.Shared.Enums;
 
 namespace LinkManager.Application.Dtos;
 

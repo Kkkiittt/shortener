@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-using Shared.Enums;
+using Shortener.Shared.Enums;
 
 namespace PlanManager.Application.Dtos;
 

@@ -1,4 +1,4 @@
-﻿namespace Shared.Enums;
+﻿namespace Shortener.Shared.Enums;
 
 public enum Roles
 {

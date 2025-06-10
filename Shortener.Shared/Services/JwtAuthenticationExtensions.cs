@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace Shared.Services;
+namespace Shortener.Shared.Services;
 
 public static class JwtAuthenticationExtensions
 {

@@ -1,6 +1,6 @@
 ﻿using Authenticator.Domain.Entities;
 
-using Shared.Enums;
+using Shortener.Shared.Enums;
 
 namespace Authenticator.Application.Dtos;
 

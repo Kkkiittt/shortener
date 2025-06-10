@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Authenticator\Authenticator.Domain\Authenticator.Domain.csproj" />
     <ProjectReference Include="..\PlanManager.Domain\PlanManager.Domain.csproj" />
   </ItemGroup>
 

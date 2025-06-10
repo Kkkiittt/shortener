@@ -4,9 +4,9 @@ using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Domain.Entities;
 
-using Shared.Enums;
-using Shared.Helpers;
-using Shared.Interfaces;
+using Shortener.Shared.Enums;
+using Shortener.Shared.Helpers;
+using Shortener.Shared.Interfaces;
 
 
 namespace Authenticator.Application.Services;

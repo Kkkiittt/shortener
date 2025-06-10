@@ -2,13 +2,13 @@
 
 using Microsoft.AspNetCore.Http;
 
-using Shared.Enums;
-using Shared.Interfaces;
+using Shortener.Shared.Enums;
+using Shortener.Shared.Interfaces;
 
 
 
 
-namespace Shared.Services;
+namespace Shortener.Shared.Services;
 
 public class UserIdentifier : IUserIdentifier
 {

@@ -1,11 +1,11 @@
-using Authenticator.DataAccess.Extensions;
+using Authenticator.Infrastructure.Extensions;
 
-using LinkManager.DataAccess.Extensions;
+using LinkManager.Infrastructure.Extensions;
 
-using PlanManager.DataAccess.Extensions;
+using PlanManager.Infrastructure.Extensions;
 
-using Shared.Interfaces;
-using Shared.Services;
+using Shortener.Shared.Interfaces;
+using Shortener.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

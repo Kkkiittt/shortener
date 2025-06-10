@@ -34,7 +34,7 @@ public class AuthController : ControllerBase
 		}
 		catch(Exception ex)
 		{
-			return BadRequest(ex.Message + "\n" + ex.StackTrace);
+			return BadRequest(ex.Message);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class AuthController : ControllerBase
 		}
 		catch(Exception ex)
 		{
-			return BadRequest(ex.Message + "\n" + ex.StackTrace);
+			return BadRequest(ex.Message);
 		}
 	}
 
@@ -159,7 +159,7 @@ public class AuthController : ControllerBase
 		}
 		catch(Exception ex)
 		{
-			return BadRequest(ex.Message + ex.StackTrace);
+			return BadRequest(ex.Message);
 		}
 	}
 

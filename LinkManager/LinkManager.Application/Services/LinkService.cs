@@ -3,9 +3,9 @@ using LinkManager.Application.Interfaces.Repositories;
 using LinkManager.Application.Interfaces.Services;
 using LinkManager.Domain.Entities;
 
-using Shared.Enums;
-using Shared.Helpers;
-using Shared.Interfaces;
+using Shortener.Shared.Enums;
+using Shortener.Shared.Helpers;
+using Shortener.Shared.Interfaces;
 
 namespace LinkManager.Application.Services;
 

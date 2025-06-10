@@ -103,7 +103,7 @@ public class LinkController : ControllerBase
 		}
 		catch(Exception ex)
 		{
-			return BadRequest(ex.Message + ex.StackTrace + " " + shortLink);
+			return BadRequest(ex.Message);
 		}
 	}
 

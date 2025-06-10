@@ -1,7 +1,7 @@
-using PlanManager.DataAccess.Extensions;
+using PlanManager.Infrastructure.Extensions;
 
-using Shared.Interfaces;
-using Shared.Services;
+using Shortener.Shared.Interfaces;
+using Shortener.Shared.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

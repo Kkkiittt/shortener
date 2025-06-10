@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Authenticator\Authenticator.Domain\Authenticator.Domain.csproj" />
     <ProjectReference Include="..\LinkManager.Domain\LinkManager.Domain.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿namespace Shared.Helpers;
+﻿namespace Shortener.Shared.Helpers;
 
 public static class Hasher
 {

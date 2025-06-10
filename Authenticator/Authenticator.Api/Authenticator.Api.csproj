@@ -22,8 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Authenticator.Application\Authenticator.Application.csproj" />
-    <ProjectReference Include="..\Authenticator.DataAccess\Authenticator.DataAccess.csproj" />
-    <ProjectReference Include="..\Authenticator.Domain\Authenticator.Domain.csproj" />
+    <ProjectReference Include="..\Authenticator.DataAccess\Authenticator.Infrastructure.csproj" />
+    <ProjectReference Include="..\Authenticator.Infrastructure\Authenticator.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

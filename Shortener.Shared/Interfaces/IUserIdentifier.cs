@@ -1,6 +1,6 @@
-﻿using Shared.Enums;
+﻿using Shortener.Shared.Enums;
 
-namespace Shared.Interfaces;
+namespace Shortener.Shared.Interfaces;
 
 public interface IUserIdentifier
 {
