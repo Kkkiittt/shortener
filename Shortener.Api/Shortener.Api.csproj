@@ -11,10 +11,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Controllers\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\Authenticator\Authenticator.Api\Authenticator.Api.csproj" />
 	  <ProjectReference Include="..\Authenticator\Authenticator.Infrastructure\Authenticator.Infrastructure.csproj" />
 	  <ProjectReference Include="..\LinkManager\LinkManager.Api\LinkManager.Api.csproj" />
