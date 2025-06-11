@@ -5,6 +5,7 @@ using PlanManager.Application.Interfaces.Services;
 using PlanManager.Domain.Entities;
 
 using Shortener.Shared.Enums;
+using Shortener.Shared.Exceptions;
 using Shortener.Shared.Interfaces;
 
 namespace PlanManager.Application.Services;
@@ -20,30 +21,63 @@ public class PlanService : IPlanService
 		_user = user;
 	}
 
-	public async Task<bool> CheckPlanActionAsync(PlanCheckDto dto)
+	public async Task<bool> CheckPlanCreateAsync(PlanWriteCheckDto dto)
 	{
 		Plan? plan = await _planRepo.GetPlanAsync(dto.Id);
 
 		if(plan == null)
-			throw new Exception("Plan not found");
+			throw new ShortenerNotFoundException("Plan not found", "Plan", dto.Id.ToString());
 
-		if(!plan.Actions.Contains(dto.Action))
-			throw new Exception("Action unavailable");
+		if(!plan.Actions.Contains(ClientAction.LinkCreate))
+			throw new ShortenerPermissionException("Action not allowed", "PlanActions");
 
-		if(dto.Action == ClientAction.LinkCreate)
-		{
-			if(plan.MaxLinkCount <= dto.UserLinks)
-				throw new Exception("Link limit exceeded");
+		if(plan.MaxLinkCount <= dto.UserLinks)
+			throw new ShortenerPermissionException("Max link count exceeded", "Plan maximum link count");
 
-			if(plan.MaxLinkLifetime < dto.LinkLifetime)
-				throw new Exception("Link lifetime limit exceeded");
-		}
+		if(plan.MaxLinkLifetime < dto.LinkLifetime)
+			throw new ShortenerPermissionException("Max link lifetime exceeded", "Plan maximum link lifetime");
 
-		if(dto.Action == ClientAction.LinkUpdate)
-		{
-			if(plan.MaxLinkLifetime < dto.LinkLifetime)
-				throw new Exception("Link lifetime limit exceeded");
-		}
+		return true;
+	}
+
+	public async Task<bool> CheckPlanDeleteAsync(long id)
+	{
+		Plan? plan = await _planRepo.GetPlanAsync(id);
+
+		if(plan == null)
+			throw new ShortenerNotFoundException("Plan not found", "Plan", id.ToString());
+
+		if(!plan.Actions.Contains(ClientAction.LinkDelete))
+			throw new ShortenerPermissionException("Action not allowed", "PlanActions");
+
+		return true;
+	}
+
+	public async Task<bool> CheckPlanInformateAsync(long id)
+	{
+		Plan? plan = await _planRepo.GetPlanAsync(id);
+
+		if(plan == null)
+			throw new ShortenerNotFoundException("Plan not found", "Plan", id.ToString());
+
+		if(!plan.Actions.Contains(ClientAction.LinkInfo))
+			throw new ShortenerPermissionException("Action not allowed", "PlanActions");
+
+		return true;
+	}
+
+	public async Task<bool> CheckPlanUpdateAsync(PlanWriteCheckDto dto)
+	{
+		Plan? plan = await _planRepo.GetPlanAsync(dto.Id);
+
+		if(plan == null)
+			throw new ShortenerNotFoundException("Plan not found", "Plan", dto.Id.ToString());
+
+		if(!plan.Actions.Contains(ClientAction.LinkUpdate))
+			throw new ShortenerPermissionException("Action not allowed", "Plan Actions");
+
+		if(plan.MaxLinkLifetime < dto.LinkLifetime)
+			throw new ShortenerPermissionException("Max link lifetime exceeded", "Plan maximum link lifetime");
 
 		return true;
 	}
@@ -51,7 +85,7 @@ public class PlanService : IPlanService
 	public async Task<bool> CreatePlanAsync(PlanCreateDto dto)
 	{
 		if(!_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		Plan plan = new Plan(dto.Name, dto.MaxLinkLifetime, dto.MaxLinkCount, dto.Actions, dto.Description ?? "", dto.Cost, dto.SubscriptionPeriod ?? TimeSpan.MaxValue)
 		{
@@ -65,12 +99,12 @@ public class PlanService : IPlanService
 	public async Task<bool> DeletePlanAsync(int id)
 	{
 		if(!_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		Plan? plan = await _planRepo.GetPlanAsync(id);
 
 		if(plan == null)
-			throw new Exception("Plan not found");
+			throw new ShortenerNotFoundException("Plan not found", "Plan", id.ToString());
 
 		_planRepo.DeletePlan(plan);
 		return await _planRepo.SaveChangesAsync();
@@ -79,12 +113,12 @@ public class PlanService : IPlanService
 	public async Task<Plan> GetPlanAsync(long id)
 	{
 		if(!_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		Plan? plan = await _planRepo.GetPlanAsync(id);
 
 		if(plan == null)
-			throw new Exception("Plan not found");
+			throw new ShortenerNotFoundException("Plan not found", "Plan", id.ToString());
 
 		return plan;
 	}
@@ -92,7 +126,7 @@ public class PlanService : IPlanService
 	public async Task<List<Plan>> GetPlansAsync()
 	{
 		if(!_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		return await _planRepo.GetPlansAsync();
 	}
@@ -105,12 +139,12 @@ public class PlanService : IPlanService
 	public async Task<bool> UpdatePlanAsync(PlanUpdateDto dto)
 	{
 		if(!_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		Plan? plan = await _planRepo.GetPlanAsync(dto.Id);
 
 		if(plan == null)
-			throw new Exception("Plan not found");
+			throw new ShortenerNotFoundException("Plan not found", "Plan", dto.Id.ToString());
 
 		plan.Actions = dto.Actions;
 		plan.Description = dto.Description ?? "";

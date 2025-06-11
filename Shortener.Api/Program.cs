@@ -4,6 +4,7 @@ using LinkManager.Infrastructure.Extensions;
 
 using PlanManager.Infrastructure.Extensions;
 
+using Shortener.Api.Middlewares;
 using Shortener.Shared.Interfaces;
 using Shortener.Shared.Services;
 
@@ -12,7 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Configuration.AddJsonFile("appsettings.secure.json");
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(opt =>
+{
+	opt.Filters.Add<ExceptionFilter>();
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddJwtBearerAuthentication(builder.Configuration, true);

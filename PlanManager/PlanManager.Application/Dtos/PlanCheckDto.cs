@@ -1,19 +1,15 @@
-﻿using Shortener.Shared.Enums;
+﻿namespace PlanManager.Application.Dtos;
 
-namespace PlanManager.Application.Dtos;
-
-public class PlanCheckDto
+public class PlanWriteCheckDto
 {
 	public long Id { get; set; }
 	public int UserLinks { get; set; }
 	public int LinkLifetime { get; set; }
-	public ClientAction Action { get; set; }
 
-	public PlanCheckDto(long id, int userLinks, int linkLifetime, ClientAction action)
+	public PlanWriteCheckDto(long id, int userLinks, int linkLifetime)
 	{
 		Id = id;
 		UserLinks = userLinks;
 		LinkLifetime = linkLifetime;
-		Action = action;
 	}
 }

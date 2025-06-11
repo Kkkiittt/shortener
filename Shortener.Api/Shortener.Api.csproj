@@ -16,8 +16,11 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Authenticator\Authenticator.Api\Authenticator.Api.csproj" />
+	  <ProjectReference Include="..\Authenticator\Authenticator.Infrastructure\Authenticator.Infrastructure.csproj" />
 	  <ProjectReference Include="..\LinkManager\LinkManager.Api\LinkManager.Api.csproj" />
+	  <ProjectReference Include="..\LinkManager\LinkManager.Infrastructure\LinkManager.Infrastructure.csproj" />
 	  <ProjectReference Include="..\PlanManager\PlanManager.Api\PlanManager.Api.csproj" />
+	  <ProjectReference Include="..\PlanManager\PlanManager.Infrastructure\PlanManager.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>

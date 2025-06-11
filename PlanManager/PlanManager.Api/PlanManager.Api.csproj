@@ -1,24 +1,13 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.16" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PlanManager.Application\PlanManager.Application.csproj" />
-    <ProjectReference Include="..\PlanManager.DataAccess\PlanManager.Infrastructure.csproj" />
-    <ProjectReference Include="..\PlanManager.Infrastructure\PlanManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

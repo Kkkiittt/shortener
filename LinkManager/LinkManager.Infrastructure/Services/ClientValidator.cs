@@ -1,4 +1,5 @@
-﻿using LinkManager.Application.Dtos;
+﻿
+using LinkManager.Application.Dtos;
 using LinkManager.Application.Interfaces.Services;
 
 using PlanManager.Application.Dtos;
@@ -8,16 +9,32 @@ namespace LinkManager.Infrastructure.Services;
 
 public class ClientValidator : IClientValidator
 {
-	private readonly IPlanManagerModule _plan;
+	private readonly IPlanManagerModule _planModule;
 
-	public ClientValidator(IPlanManagerModule plan)
+	public ClientValidator(IPlanManagerModule planModule)
 	{
-		_plan = plan;
+		_planModule = planModule;
 	}
 
-	public async Task<bool> ValidateAsync(ClientCheckDto dto)
+	public async Task<bool> ValidateCreateAsync(ClientWriteCheckDto dto)
 	{
-		PlanCheckDto planDto = new PlanCheckDto(dto.PlanId, dto.LinkCount, dto.LinkLifetime, dto.Action);
-		return await _plan.CheckPlanAsync(planDto);
+		PlanWriteCheckDto planDto = new PlanWriteCheckDto(dto.PlanId, dto.LinkCount, dto.LinkLifetime);
+		return await _planModule.CheckPlanCreateAsync(planDto);
+	}
+
+	public async Task<bool> ValidateDeleteAsync(long id)
+	{
+		return await _planModule.CheckPlanDeleteAsync(id);
+	}
+
+	public async Task<bool> ValidateInformateAsync(long id)
+	{
+		return await _planModule.CheckPlanInformateAsync(id);
+	}
+
+	public async Task<bool> ValidateUpdateAsync(ClientWriteCheckDto dto)
+	{
+		PlanWriteCheckDto planDto = new PlanWriteCheckDto(dto.PlanId, dto.LinkCount, dto.LinkLifetime);
+		return await _planModule.CheckPlanUpdateAsync(planDto);
 	}
 }

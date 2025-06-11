@@ -4,6 +4,7 @@ using LinkManager.Application.Interfaces.Services;
 using LinkManager.Domain.Entities;
 
 using Shortener.Shared.Enums;
+using Shortener.Shared.Exceptions;
 using Shortener.Shared.Helpers;
 using Shortener.Shared.Interfaces;
 
@@ -25,11 +26,11 @@ public class LinkService : ILinkService
 	public async Task<string> CreateLinkAsync(LinkCreateDto dto)
 	{
 		int linkCount = await _linkRepo.GetLinkCountAsync(_user.Id);
-		ClientCheckDto checkDto = new(_user.SubscriptionId, linkCount, dto.Lifetime, ClientAction.LinkCreate);
+		ClientWriteCheckDto checkDto = new(_user.SubscriptionId, linkCount, dto.Lifetime);
 
-		var res = await _validator.ValidateAsync(checkDto);
+		var res = await _validator.ValidateCreateAsync(checkDto);
 		if(!res)
-			throw new Exception("Permission denied");
+			throw new ShortenerPermissionException("Permission denied", "Subscription");
 
 		string? passw = null;
 		if(dto.Password != null)
@@ -49,20 +50,18 @@ public class LinkService : ILinkService
 
 	public async Task<bool> DeleteLinkAsync(string shortLink)
 	{
-		ClientCheckDto checkDto = new(_user.SubscriptionId, 0, 0, ClientAction.LinkDelete);
-
-		var res = await _validator.ValidateAsync(checkDto);
+		var res = await _validator.ValidateDeleteAsync(_user.SubscriptionId);
 		if(!res)
-			throw new Exception("Permission denied");
+			throw new ShortenerPermissionException("Permission denied", "Subscription");
 
 		long id = Encoder.Decode(shortLink);
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
-			throw new Exception("Link not found");
+			throw new ShortenerNotFoundException("Link not found", "Link", shortLink);
 
 		if(link.UserId != _user.Id && !_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		_linkRepo.DeleteLink(link);
 		return await _linkRepo.SaveChangesAsync();
@@ -74,15 +73,15 @@ public class LinkService : ILinkService
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null || link.Created.AddDays(link.LifeTime) < DateTime.UtcNow)
-			throw new Exception("Link not found");//if link expired, say that it is not existing
+			throw new ShortenerNotFoundException("Link not found", "Link", shortLink);//if link expired, say that it is not existing
 
 		if(link.PasswordHash != null)//if password is not null only then check it
 		{
 			if(password == null)
-				throw new Exception("Password required");
+				throw new ShortenerArgumentException("Password required", "Password");
 
 			if(!Hasher.Verify(password, link.PasswordHash))
-				throw new Exception("Wrong password");
+				throw new ShortenerPermissionException("Access denied", "Password");
 		}
 
 		link.Clicks++;
@@ -102,10 +101,10 @@ public class LinkService : ILinkService
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
-			throw new Exception("Link not found");
+			throw new ShortenerNotFoundException("Link not found", "Link", shortLink);
 
 		if(link.UserId != _user.Id && !_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		LinkUpdateDto dto = new(shortLink, link.Url, "", link.LifeTime);
 		return dto;
@@ -114,12 +113,12 @@ public class LinkService : ILinkService
 	public async Task<LinkGetFullDto> GetLinkFullInfoAsync(long id)
 	{
 		if(!_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
-			throw new Exception("Link not found");
+			throw new ShortenerNotFoundException("Link not found", "Link", id.ToString());
 
 		LinkGetFullDto dto = (LinkGetFullDto)link;
 
@@ -128,20 +127,18 @@ public class LinkService : ILinkService
 
 	public async Task<LinkGetDto> GetLinkInfoAsync(string shortLink)
 	{
-		ClientCheckDto checkDto = new(_user.SubscriptionId, 0, 0, ClientAction.LinkInfo);
-
-		var res = await _validator.ValidateAsync(checkDto);
+		var res = await _validator.ValidateInformateAsync(_user.SubscriptionId);
 		if(!res)
-			throw new Exception("Permission denied");
+			throw new ShortenerPermissionException("Permission denied", "Subscription");
 
 		long id = Encoder.Decode(shortLink);
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
-			throw new Exception("Link not found");
+			throw new ShortenerNotFoundException("Link not found", "Link", shortLink);
 
 		if(link.UserId != _user.Id && !_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		LinkGetDto dto = new()
 		{
@@ -159,10 +156,13 @@ public class LinkService : ILinkService
 	public async Task<List<LinkGetFullDto>> GetLinksFullInfoAsync(int page, int pageSize)
 	{
 		if(!_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
-		if(page < 1 || pageSize < 1)
-			throw new Exception("Invalid parameters");
+		if(page < 1)
+			throw new ShortenerArgumentException("Invalid page", "Page");
+
+		if(pageSize < 1)
+			throw new ShortenerArgumentException("Invalid page size", "PageSize");
 
 		if(pageSize > 50)
 			pageSize = 50;//so too much data can not be retrieved
@@ -176,7 +176,7 @@ public class LinkService : ILinkService
 	public async Task<List<LinkGetFullDto>> GetLinksFullInfoByUserAsync(long userId)
 	{
 		if(!_user.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		List<Link> links = await _linkRepo.GetLinksAsync(userId);
 
@@ -185,14 +185,12 @@ public class LinkService : ILinkService
 
 	public async Task<List<LinkGetDto>> GetLinksInfoByUserAsync(long userId)
 	{
-		ClientCheckDto checkDto = new(_user.SubscriptionId, 0, 0, ClientAction.LinkInfo);
-
-		var res = await _validator.ValidateAsync(checkDto);
+		var res = await _validator.ValidateInformateAsync(_user.SubscriptionId);
 		if(!res)
-			throw new Exception("Permission denied");
+			throw new ShortenerPermissionException("Permission denied", "Subscription");
 
 		if(!_user.IsAdmin && userId != _user.Id)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		List<Link> links = await _linkRepo.GetLinksAsync(userId);
 
@@ -214,20 +212,20 @@ public class LinkService : ILinkService
 	public async Task<bool> UpdateLinkAsync(LinkUpdateDto dto)
 	{
 		int linkCount = await _linkRepo.GetLinkCountAsync(_user.Id);
-		ClientCheckDto checkDto = new(_user.SubscriptionId, linkCount, dto.Lifetime, ClientAction.LinkUpdate);
+		ClientWriteCheckDto checkDto = new(_user.SubscriptionId, linkCount, dto.Lifetime);
 
-		var res = await _validator.ValidateAsync(checkDto);
+		var res = await _validator.ValidateUpdateAsync(checkDto);
 		if(!res)
-			throw new Exception("Permission denied");
+			throw new ShortenerPermissionException("Permission denied", "Subscription");
 
 		long id = Encoder.Decode(dto.ShortLink);
 		Link? link = await _linkRepo.GetLinkAsync(id);
 
 		if(link == null)
-			throw new Exception("Link not found");
+			throw new ShortenerNotFoundException("Link not found", "Link", dto.ShortLink);
 
 		if(link.UserId != _user.Id)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		link.Url = dto.LongLink;
 		link.LifeTime = dto.Lifetime;

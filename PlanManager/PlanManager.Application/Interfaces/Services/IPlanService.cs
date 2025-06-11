@@ -5,7 +5,13 @@ namespace PlanManager.Application.Interfaces.Services;
 
 public interface IPlanService
 {
-	public Task<bool> CheckPlanActionAsync(PlanCheckDto dto);
+	public Task<bool> CheckPlanCreateAsync(PlanWriteCheckDto dto);
+
+	public Task<bool> CheckPlanUpdateAsync(PlanWriteCheckDto dto);
+
+	public Task<bool> CheckPlanDeleteAsync(long id);
+
+	public Task<bool> CheckPlanInformateAsync(long id);
 
 	public Task<bool> CreatePlanAsync(PlanCreateDto dto);
 

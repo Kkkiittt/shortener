@@ -1,10 +1,14 @@
 ﻿
+using System.Reflection.Metadata;
+using System.Security;
+
 using Authenticator.Application.Dtos;
 using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Domain.Entities;
 
 using Shortener.Shared.Enums;
+using Shortener.Shared.Exceptions;
 using Shortener.Shared.Helpers;
 using Shortener.Shared.Interfaces;
 
@@ -27,7 +31,7 @@ public class UserManager : IUserManager
 	public async Task<bool> CreateAsync(UserCreateDto userDto)
 	{
 		if(await _repo.AnyUserAsync(userDto.Email))
-			throw new Exception("Email already exists");
+			throw new ShortenerUsedException("Email already exists", "Email");
 
 		User user = new(userDto.Email, Hasher.Hash(userDto.Password), userDto.Name)
 		{
@@ -46,7 +50,7 @@ public class UserManager : IUserManager
 		User? user = await _repo.GetUserAsync(_identity.Id);
 
 		if(user == null)
-			throw new Exception("User not found");
+			throw new ShortenerNotFoundException("User not found", "User", _identity.Id.ToString());
 
 		UserUpdateDto result = new(user.Id, user.Email, "", user.Name);
 		return result;
@@ -56,15 +60,15 @@ public class UserManager : IUserManager
 	{
 
 		if(_identity.Id != id && !_identity.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		User? user = await _repo.GetUserAsync(id);
 
 		if(user == null)
-			throw new Exception("User not found");
+			throw new ShortenerNotFoundException("User not found", "User", id.ToString());
 
 		if(user.Role == Roles.Admin || user.Role == Roles.Owner)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		_repo.DeleteUser(user);
 		return await _repo.SaveChangesAsync();
@@ -73,12 +77,12 @@ public class UserManager : IUserManager
 	public async Task<UserGetDto> GetUserAsync(long id)
 	{
 		if(_identity.Id != id && !_identity.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		User? user = await _repo.GetUserAsync(id);
 
 		if(user == null)
-			throw new Exception("User not found");
+			throw new ShortenerNotFoundException("User not found", "User", id.ToString());
 
 		return (UserGetDto)user;
 	}
@@ -86,10 +90,13 @@ public class UserManager : IUserManager
 	public async Task<List<UserGetDto>> GetUsersAsync(int page, int pageSize)
 	{
 		if(!_identity.IsAdmin)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
-		if(pageSize < 1 || page < 1)
-			throw new ArgumentException("Invalid arguments");
+		if(pageSize < 1)
+			throw new ShortenerArgumentException("Invalid page size", "Page size");
+
+		if(page < 1)
+			throw new ShortenerArgumentException("Invalid page", "Page");
 
 		if(pageSize > 50)
 			pageSize = 50;
@@ -104,23 +111,23 @@ public class UserManager : IUserManager
 		User? user = await _repo.GetUserAsync(userDto.Email);
 
 		if(user == null)
-			throw new Exception("Invalid credentials");
+			throw new ShortenerArgumentException("Invalid credentials", "Email or password");
 
 		if(Hasher.Verify(userDto.Password, user.PasswordHash))
 			return _token.GenerateToken(user);
 
-		throw new Exception("Invalid credentials");
+		throw new ShortenerArgumentException("Invalid credentials", "Email or password");
 	}
 
 	public async Task<bool> PromoteAsync(long id)
 	{
 		if(_identity.Role != Roles.Owner)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		User? user = await _repo.GetUserAsync(id);
 
 		if(user == null)
-			throw new Exception("User not found");
+			throw new ShortenerNotFoundException("User not found", "User", id.ToString());
 
 		if(user.Role != Roles.Owner)
 		{
@@ -135,12 +142,12 @@ public class UserManager : IUserManager
 	public async Task<bool> DemoteAsync(long id)
 	{
 		if(_identity.Role != Roles.Owner)
-			throw new Exception("Access denied");
+			throw new ShortenerPermissionException("Access denied", "User role");
 
 		User? user = await _repo.GetUserAsync(id);
 
 		if(user == null)
-			throw new Exception("User not found");
+			throw new ShortenerNotFoundException("User not found", "User", id.ToString());
 
 		if(user.Role != Roles.Owner)
 		{
@@ -157,7 +164,7 @@ public class UserManager : IUserManager
 		User? user = await _repo.GetUserAsync(_identity.Id);
 
 		if(user == null)
-			throw new Exception("User not found");
+			throw new ShortenerNotFoundException("User not found", "User", _identity.Id.ToString());
 
 		user.SubscriptionId = subscriptionId;
 		_repo.UpdateUser(user);
@@ -168,11 +175,11 @@ public class UserManager : IUserManager
 	{
 		User? emailUser = await _repo.GetUserAsync(userDto.Email);
 		if(emailUser != null && emailUser.Id != _identity.Id)
-			throw new Exception("Email already exists");
+			throw new ShortenerUsedException("Email already exists", "Email");
 
 		User? user = await _repo.GetUserAsync(_identity.Id);
 		if(user == null)
-			throw new Exception("User not found");
+			throw new ShortenerNotFoundException("User not found", "User", _identity.Id.ToString());
 
 		user.Email = userDto.Email;
 		user.Name = userDto.Name;

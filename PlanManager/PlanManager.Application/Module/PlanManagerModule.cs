@@ -13,8 +13,51 @@ public class PlanManagerModule : IPlanManagerModule
 		_planService = planService;
 	}
 
-	public async Task<bool> CheckPlanAsync(PlanCheckDto dto)
+	public async Task<bool> CheckPlanCreateAsync(PlanWriteCheckDto dto)
 	{
-		return await _planService.CheckPlanActionAsync(dto);
+		try
+		{
+			return await _planService.CheckPlanCreateAsync(dto);
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	public async Task<bool> CheckPlanDeleteAsync(long id)
+	{
+		try
+		{
+			return await _planService.CheckPlanDeleteAsync(id);
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	public async Task<bool> CheckPlanInformateAsync(long id)
+	{
+		try
+		{
+			return await _planService.CheckPlanInformateAsync(id);
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	public async Task<bool> CheckPlanUpdateAsync(PlanWriteCheckDto dto)
+	{
+		try
+		{
+			return await _planService.CheckPlanUpdateAsync(dto);
+		}
+		catch
+		{
+			return false;
+		}
 	}
 }
