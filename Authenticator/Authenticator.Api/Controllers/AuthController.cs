@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-using Authenticator.Application.Dtos;
+﻿using Authenticator.Application.Dtos;
 using Authenticator.Application.Interfaces.Services;
 
 using Microsoft.AspNetCore.Authorization;
@@ -66,7 +64,7 @@ public class AuthController : ControllerBase
 	{
 		var res = await _userManager.CreateAsync(dto);
 		if(res)
-			return NoContent();
+			return Created();
 		else
 			return BadRequest();
 	}

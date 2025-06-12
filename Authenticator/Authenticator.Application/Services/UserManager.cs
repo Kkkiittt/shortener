@@ -1,8 +1,4 @@
-﻿
-using System.Reflection.Metadata;
-using System.Security;
-
-using Authenticator.Application.Dtos;
+﻿using Authenticator.Application.Dtos;
 using Authenticator.Application.Interfaces.Repositories;
 using Authenticator.Application.Interfaces.Services;
 using Authenticator.Domain.Entities;
@@ -33,15 +29,9 @@ public class UserManager : IUserManager
 		if(await _repo.AnyUserAsync(userDto.Email))
 			throw new ShortenerUsedException("Email already exists", "Email");
 
-		User user = new(userDto.Email, Hasher.Hash(userDto.Password), userDto.Name)
-		{
-			Balance = 0,
-			Created = DateTime.UtcNow,
-			Role = Roles.User,
-			Updated = DateTime.UtcNow
-		};
+		User user = new(userDto.Email, Hasher.Hash(userDto.Password), userDto.Name);
 
-		var res = _repo.CreateUser(user);
+		_repo.CreateUser(user);
 		return await _repo.SaveChangesAsync();
 	}
 
@@ -68,7 +58,7 @@ public class UserManager : IUserManager
 			throw new ShortenerNotFoundException("User not found", "User", id.ToString());
 
 		if(user.Role == Roles.Admin || user.Role == Roles.Owner)
-			throw new ShortenerPermissionException("Access denied", "User role");
+			throw new ShortenerPermissionException("Permission denied", "Object role");
 
 		_repo.DeleteUser(user);
 		return await _repo.SaveChangesAsync();
@@ -113,10 +103,10 @@ public class UserManager : IUserManager
 		if(user == null)
 			throw new ShortenerArgumentException("Invalid credentials", "Email or password");
 
-		if(Hasher.Verify(userDto.Password, user.PasswordHash))
-			return _token.GenerateToken(user);
+		if(!Hasher.Verify(userDto.Password, user.PasswordHash))
+			throw new ShortenerArgumentException("Invalid credentials", "Email or password");
 
-		throw new ShortenerArgumentException("Invalid credentials", "Email or password");
+		return _token.GenerateToken(user);
 	}
 
 	public async Task<bool> PromoteAsync(long id)
@@ -167,6 +157,7 @@ public class UserManager : IUserManager
 			throw new ShortenerNotFoundException("User not found", "User", _identity.Id.ToString());
 
 		user.SubscriptionId = subscriptionId;
+
 		_repo.UpdateUser(user);
 		return await _repo.SaveChangesAsync();
 	}
