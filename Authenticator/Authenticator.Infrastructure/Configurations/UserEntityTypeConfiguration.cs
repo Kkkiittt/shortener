@@ -19,15 +19,9 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 		_config = config;
 	}
 
-	public void Configure(EntityTypeBuilder<User> builder)
+	public void Configure(EntityTypeBuilder<User> userBuilder)
 	{
-
-		builder.HasKey(x => x.Id);
-
-		builder.HasIndex(x => x.Email)
-			.IsUnique();
 		var admConfig = _config.GetSection("Admin");
-
 		string? email = admConfig["Email"],
 			password = admConfig["Password"],
 			name = admConfig["Name"],
@@ -37,7 +31,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 			id = admConfig["Id"];
 		if(email == null || password == null || name == null || created == null || balance == null || role == null || id == null)
 		{
-			throw new Exception("Admin settings not found");
+			throw new InvalidOperationException("Admin settings not found");
 		}
 		var admin = new User(email, password, name)
 		{
@@ -47,8 +41,9 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 			Id = int.Parse(id),
 			Updated = DateTime.ParseExact(created, "dd/MM/yyyy", CultureInfo.InvariantCulture)
 		};
-		builder.HasData(admin);
-		builder.HasIndex(x => x.Email).IsUnique();
-		builder.HasKey(x => x.Id);
+
+		userBuilder.HasData(admin);
+		userBuilder.HasIndex(x => x.Email).IsUnique();
+		userBuilder.HasKey(x => x.Id);
 	}
 }
