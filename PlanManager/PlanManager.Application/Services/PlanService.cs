@@ -29,7 +29,7 @@ public class PlanService : IPlanService
 			throw new ShortenerNotFoundException("Plan not found", "Plan", dto.Id.ToString());
 
 		if(!plan.Actions.Contains(ClientAction.LinkCreate))
-			throw new ShortenerPermissionException("Action not allowed", "PlanActions");
+			throw new ShortenerPermissionException("Action not allowed", "Plan actions");
 
 		if(plan.MaxLinkCount <= dto.UserLinks)
 			throw new ShortenerPermissionException("Max link count exceeded", "Plan maximum link count");
@@ -48,7 +48,7 @@ public class PlanService : IPlanService
 			throw new ShortenerNotFoundException("Plan not found", "Plan", id.ToString());
 
 		if(!plan.Actions.Contains(ClientAction.LinkDelete))
-			throw new ShortenerPermissionException("Action not allowed", "PlanActions");
+			throw new ShortenerPermissionException("Action not allowed", "Plan actions");
 
 		return true;
 	}
@@ -61,7 +61,7 @@ public class PlanService : IPlanService
 			throw new ShortenerNotFoundException("Plan not found", "Plan", id.ToString());
 
 		if(!plan.Actions.Contains(ClientAction.LinkInfo))
-			throw new ShortenerPermissionException("Action not allowed", "PlanActions");
+			throw new ShortenerPermissionException("Action not allowed", "Plan actions");
 
 		return true;
 	}

@@ -3,7 +3,6 @@ using LinkManager.Application.Interfaces.Repositories;
 using LinkManager.Application.Interfaces.Services;
 using LinkManager.Domain.Entities;
 
-using Shortener.Shared.Enums;
 using Shortener.Shared.Exceptions;
 using Shortener.Shared.Helpers;
 using Shortener.Shared.Interfaces;
@@ -36,15 +35,11 @@ public class LinkService : ILinkService
 		if(dto.Password != null)
 			passw = Hasher.Hash(dto.Password);
 
-		Link link = new Link(_user.Id, dto.LongLink, dto.Lifetime, passw)
-		{
-			Clicks = 0,
-			Created = DateTime.UtcNow,
-			Updated = DateTime.UtcNow,
-		};
+		Link link = new Link(_user.Id, dto.LongLink, dto.Lifetime, passw);
 
 		_linkRepo.CreateLink(link);
 		await _linkRepo.SaveChangesAsync();
+
 		return Encoder.Encode(link.Id);
 	}
 
@@ -86,11 +81,7 @@ public class LinkService : ILinkService
 
 		link.Clicks++;
 		_linkRepo.UpdateLink(link);
-		//_ = Task.Run(async () =>
-		//{
-		//	var scope = _repo;
 		await _linkRepo.SaveChangesAsync();
-		//});
 
 		return link.Url;
 	}

@@ -18,7 +18,8 @@ public class ExceptionFilter : IExceptionFilter
 			context.Result = new ObjectResult(new
 			{
 				StatusCode = HttpStatusCode.BadRequest,
-				Message = usEx.FieldName + " is already used"
+				Message = usEx.FieldName + " is already used",
+				usEx.FieldName
 			})
 			{
 				StatusCode = (int)HttpStatusCode.BadRequest
@@ -29,7 +30,8 @@ public class ExceptionFilter : IExceptionFilter
 			context.Result = new ObjectResult(new
 			{
 				StatusCode = HttpStatusCode.BadRequest,
-				Message = argEx.FieldName + " is invalid"
+				Message = argEx.FieldName + " is invalid",
+				argEx.FieldName
 			})
 			{
 				StatusCode = (int)HttpStatusCode.BadRequest
@@ -40,7 +42,8 @@ public class ExceptionFilter : IExceptionFilter
 			context.Result = new ObjectResult(new
 			{
 				StatusCode = HttpStatusCode.Forbidden,
-				Message = permEx.Restriction + " does not allow you this action"
+				Message = permEx.Restriction + " does not allow you this action",
+				permEx.Restriction
 			})
 			{
 				StatusCode = (int)HttpStatusCode.Forbidden
@@ -51,7 +54,8 @@ public class ExceptionFilter : IExceptionFilter
 			context.Result = new ObjectResult(new
 			{
 				StatusCode = HttpStatusCode.NotFound,
-				Message = notFoundEx.EntityName + " with id " + notFoundEx.EntityId + " not found"
+				Message = notFoundEx.EntityName + " with id " + notFoundEx.EntityId + " not found",
+				notFoundEx.EntityName
 			})
 			{
 				StatusCode = (int)HttpStatusCode.NotFound

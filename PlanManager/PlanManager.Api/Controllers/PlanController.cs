@@ -17,16 +17,6 @@ public class PlanController : ControllerBase
 		_planService = planService;
 	}
 
-	//[HttpPost("check")]
-	//[AllowAnonymous]
-	//public async Task<IActionResult> CheckPlan(PlanCheckDto dto)
-	//{
-	//	var res = await _planService.CheckPlanActionAsync(dto);
-	//	if(res)
-	//		return Ok();
-	//	return BadRequest();
-	//}
-
 	[HttpPost]
 	[Authorize(Roles = "Admin, Owner")]
 	public async Task<IActionResult> CreatePlan(PlanCreateDto dto)

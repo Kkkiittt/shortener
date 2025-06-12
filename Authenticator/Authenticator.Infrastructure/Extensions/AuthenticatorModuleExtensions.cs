@@ -25,7 +25,6 @@ public static class AuthenticatorModuleExtensions
 			var connect = config.GetConnectionString("UserDb");
 			options.UseNpgsql(connect);
 		});
-		services.AddMvc().AddApplicationPart(typeof(AuthenticatorModuleExtensions).Assembly).AddControllersAsServices();
 		return services;
 	}
 }
