@@ -195,7 +195,7 @@ public class UserManager : IUserManager
 			throw new ShortenerNotFoundException("User not found", "User", id.ToString());
 
 		if(user.Updated >= issueDate)
-			throw new ShortenerArgumentException("User update, relogin", "Token");
+			throw new ShortenerArgumentException("User updated, relogin", "Token");
 
 		return _token.GenerateToken(user);
 	}
