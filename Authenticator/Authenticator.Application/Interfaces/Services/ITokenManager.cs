@@ -6,7 +6,7 @@ public interface ITokenManager
 {
 	public string GenerateToken(User user);
 
-	public long GetId(string token);
+	public long GetIdFromToken(string token);
 
-	public DateTime GetIssueDate(string token);
+	public DateTime GetIssueDateFromToken(string token);
 }

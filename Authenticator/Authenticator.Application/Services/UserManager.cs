@@ -187,15 +187,15 @@ public class UserManager : IUserManager
 
 	public async Task<string> RefreshTokenAsync(string token)
 	{
-		long id = _token.GetId(token);
-		DateTime issueDate = _token.GetIssueDate(token);
+		long id = _token.GetIdFromToken(token);
+		DateTime issueDate = _token.GetIssueDateFromToken(token);
 
 		User? user = await _repo.GetUserAsync(id);
 		if(user == null)
 			throw new ShortenerNotFoundException("User not found", "User", id.ToString());
 
 		if(user.Updated >= issueDate)
-			throw new ShortenerArgumentException("Token expired", "Token");
+			throw new ShortenerArgumentException("User update, relogin", "Token");
 
 		return _token.GenerateToken(user);
 	}

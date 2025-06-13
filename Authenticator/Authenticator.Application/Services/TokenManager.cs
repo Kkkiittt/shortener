@@ -39,7 +39,7 @@ public class TokenManager : ITokenManager
 		return new JwtSecurityTokenHandler().WriteToken(token);
 	}
 
-	public long GetId(string token)
+	public long GetIdFromToken(string token)
 	{
 		List<Claim> claims = GetClaims(token).ToList();
 
@@ -47,7 +47,7 @@ public class TokenManager : ITokenManager
 		return id;
 	}
 
-	public DateTime GetIssueDate(string token)
+	public DateTime GetIssueDateFromToken(string token)
 	{
 		List<Claim> claims = GetClaims(token).ToList();
 
