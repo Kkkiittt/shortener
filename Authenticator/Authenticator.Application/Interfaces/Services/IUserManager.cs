@@ -23,4 +23,6 @@ public interface IUserManager
 	public Task<bool> SubscribeAsync(long subscription_id = 0);
 
 	public Task<string> LoginAsync(UserLoginDto userDto);
+
+	public Task<string> RefreshTokenAsync(string token);
 }

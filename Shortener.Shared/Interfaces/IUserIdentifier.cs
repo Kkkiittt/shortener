@@ -8,4 +8,6 @@ public interface IUserIdentifier
 	public long SubscriptionId { get; }
 	public Roles Role { get; }
 	public bool IsAdmin { get; }
+	public DateTime IssueTime { get; }
+	public DateTime ExpireTime { get; }
 }

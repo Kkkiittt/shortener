@@ -8,12 +8,15 @@ using Authenticator.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
+using Shortener.Shared.Exceptions;
+
 namespace Authenticator.Application.Services;
 
-public class TokenGenerator : ITokenGenerator
+public class TokenManager : ITokenManager
 {
 	private readonly IConfiguration _config;
-	public TokenGenerator(IConfiguration config)
+
+	public TokenManager(IConfiguration config)
 	{
 		_config = config;
 	}
@@ -25,7 +28,8 @@ public class TokenGenerator : ITokenGenerator
 			new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
 			new Claim(ClaimTypes.Email, user.Email),
 			new Claim(ClaimTypes.Role, user.Role.ToString()),
-			new Claim ("Subscription", user.SubscriptionId.ToString())
+			new Claim ("Subscription", user.SubscriptionId.ToString()),
+			new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString())
 		};
 		var jwtConfig = _config.GetSection("JWT");
 		SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig["Secret"] ?? throw new ArgumentNullException("Key not found")));
@@ -33,5 +37,27 @@ public class TokenGenerator : ITokenGenerator
 
 		var token = new JwtSecurityToken(issuer: jwtConfig["Issuer"], audience: jwtConfig["Audience"], claims: claims, signingCredentials: credentials, expires: DateTime.Now.AddDays(1));
 		return new JwtSecurityTokenHandler().WriteToken(token);
+	}
+
+	public long GetId(string token)
+	{
+		List<Claim> claims = GetClaims(token).ToList();
+
+		long id = long.Parse(claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? throw new ShortenerArgumentException("Invalid token", "Token"));
+		return id;
+	}
+
+	public DateTime GetIssueDate(string token)
+	{
+		List<Claim> claims = GetClaims(token).ToList();
+
+		DateTime issueDate = DateTimeOffset.FromUnixTimeSeconds(long.Parse(claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Iat)?.Value ?? throw new ShortenerArgumentException("Invalid token", "Token"))).UtcDateTime;
+		return issueDate;
+	}
+
+	protected IEnumerable<Claim> GetClaims(string token)
+	{
+		JwtSecurityToken jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+		return jwtToken.Claims;
 	}
 }

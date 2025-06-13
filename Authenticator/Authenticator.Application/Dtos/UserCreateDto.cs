@@ -7,7 +7,7 @@ public class UserCreateDto
 	[EmailAddress]
 	public string Email { get; set; }
 	[Length(8, 30)]
-	public string Password { get; set; }
+	public virtual string Password { get; set; }
 	[Length(2, 30)]
 	public string Name { get; set; }
 

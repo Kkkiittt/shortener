@@ -58,6 +58,14 @@ public class AuthController : ControllerBase
 		return Ok(token);
 	}
 
+	[HttpPost("refresh")]
+	[AllowAnonymous]
+	public async Task<IActionResult> RefreshAsync([FromHeader] string oldToken)
+	{
+		var token = await _userManager.RefreshTokenAsync(oldToken);
+		return Ok(token);
+	}
+
 	[HttpPost("register")]
 	[AllowAnonymous]
 	public async Task<IActionResult> RegisterAsync(UserCreateDto dto)

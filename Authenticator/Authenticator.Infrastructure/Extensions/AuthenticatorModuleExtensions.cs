@@ -17,7 +17,7 @@ public static class AuthenticatorModuleExtensions
 	public static IServiceCollection AddAuthenticatorModule(this IServiceCollection services, IConfiguration config)
 	{
 		services.AddScoped<IUserManager, UserManager>();
-		services.AddScoped<ITokenGenerator, TokenGenerator>();
+		services.AddScoped<ITokenManager, TokenManager>();
 		services.AddScoped<IUserRepository, UserRepository>();
 		services.AddScoped<IEntityTypeConfiguration<User>, UserEntityTypeConfiguration>();
 		services.AddDbContext<UserDbContext>(options =>

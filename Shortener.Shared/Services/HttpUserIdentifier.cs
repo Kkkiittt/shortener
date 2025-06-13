@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 using Microsoft.AspNetCore.Http;
 
@@ -56,6 +57,22 @@ public class HttpUserIdentifier : IUserIdentifier
 		get
 		{
 			return Role == Roles.Admin || Role == Roles.Owner;
+		}
+	}
+
+	public DateTime IssueTime
+	{
+		get
+		{
+			return DateTimeOffset.FromUnixTimeSeconds(int.Parse(_accessor.HttpContext?.User.FindFirst(JwtRegisteredClaimNames.Iat)?.Value ?? throw new InvalidOperationException("Invalid token"))).UtcDateTime;
+		}
+	}
+
+	public DateTime ExpireTime
+	{
+		get
+		{
+			return DateTime.Parse(_accessor.HttpContext?.User.FindFirst(JwtRegisteredClaimNames.Exp)?.Value ?? throw new InvalidOperationException("Invalid token"));
 		}
 	}
 }
