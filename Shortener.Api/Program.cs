@@ -4,6 +4,8 @@ using LinkManager.Infrastructure.Extensions;
 
 using PlanManager.Infrastructure.Extensions;
 
+using Serilog;
+
 using Shortener.Api.Middlewares;
 using Shortener.Shared.Interfaces;
 using Shortener.Shared.Services;
@@ -25,6 +27,15 @@ builder.Services.AddScoped<IUserIdentifier, HttpUserIdentifier>();
 builder.Services.AddPlanManagerModule(builder.Configuration);
 builder.Services.AddLinkManagerModule(builder.Configuration);
 builder.Services.AddAuthenticatorModule(builder.Configuration);
+
+Log.Logger = new LoggerConfiguration()
+	.ReadFrom.Configuration(builder.Configuration)
+	.Enrich.FromLogContext()
+	.WriteTo.Console()
+	.WriteTo.File("logs/shortener.txt", rollingInterval: RollingInterval.Day)
+	.CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 

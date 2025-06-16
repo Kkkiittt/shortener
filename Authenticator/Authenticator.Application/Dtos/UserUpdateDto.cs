@@ -14,8 +14,6 @@ public class UserUpdateDto
 		
 	public UserUpdateDto(long id, string email, string password, string name)
 	{
-		if((password.Length < 8 || password.Length > 30) && password != "")
-			throw new Shortener.Shared.Exceptions.ShortenerArgumentException("Password must be between 8 and 30 symbols", "Password");
 		Id = id;
 		Email = email;
 		Password = password;

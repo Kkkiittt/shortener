@@ -167,6 +167,9 @@ public class UserManager : IUserManager
 
 	public async Task<bool> UpdateAsync(UserUpdateDto userDto)
 	{
+		if((userDto.Password.Length < 8 || userDto.Password.Length > 30) && userDto.Password != "")
+			throw new ShortenerArgumentException("Password must be between 8 and 30 symbols", "Password");
+
 		User? emailUser = await _repo.GetUserAsync(userDto.Email);
 		if(emailUser != null && emailUser.Id != _identity.Id)
 			throw new ShortenerUsedException("Email already exists", "Email");
@@ -200,3 +203,4 @@ public class UserManager : IUserManager
 		return _token.GenerateToken(user);
 	}
 }
+//cqrs, mediatr

@@ -9,10 +9,17 @@ namespace Shortener.Api.Middlewares;
 
 public class ExceptionFilter : IExceptionFilter
 {
+	ILogger<ExceptionFilter> _logger;
+
+	public ExceptionFilter(ILogger<ExceptionFilter> logger)
+	{
+		_logger = logger;
+	}
+
 	public void OnException(ExceptionContext context)
 	{
 		object ex = context.Exception;
-
+		_logger.LogError((ex as Exception)?.Message + "\n" + (ex as Exception)?.StackTrace);
 		if(ex is ShortenerUsedException usEx)
 		{
 			context.Result = new ObjectResult(new
